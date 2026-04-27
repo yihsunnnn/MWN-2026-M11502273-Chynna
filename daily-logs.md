@@ -16,5 +16,5 @@ Read one research paper and write a summary.
 **Daily Logs**:
 
 - `11:00–12:00`: Read the paper 
-- `13:00–14:00`: Write summary of the pape(Research paper report.docx)
+-  `13:00–14:00`: Write summary of the paper ([Research paper report.docx](./Research paper report.docx))
 - `14:00–15:00`: update the log.
