@@ -10,7 +10,7 @@
         - [x] 1.2.1.2 Organize Environmental_sensor_placement_with_convolutional_
         - [x] 1.2.1.3 Organize Intelligent_Sensor_Placement_for_Hot_Server_Detection_in_Data_Centers
         - [x] 1.2.1.4 Organize Machine_Learning-Based_Temperature_Prediction_for_Runtime_Thermal_Management_Across_System_Components
-        - [ ] 1.2.1.5 Organize An Intelligent Thermal Management Strategy for a Data Center Prototype Based on Digital Twin Technology
+        - [x] 1.2.1.5 Organize An Intelligent Thermal Management Strategy for a Data Center Prototype Based on Digital Twin Technology
         - [ ] 1.2.1.6 Organize AI-driven-cooling-optimization-in-data-centers-Reinforcement-learning-for-dynamic-workload-placement-and-HVAC-control
 
 - [ ] 1.6 Explore and refine potential research topics
