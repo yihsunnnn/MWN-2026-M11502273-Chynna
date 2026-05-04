@@ -1,0 +1,455 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{setspace}
+
+\geometry{margin=2.5cm}
+\setstretch{1.3}
+
+\title{Research Paper Report on Data Center Thermal Management}
+\author{Chynna}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{ Introduction}
+
+\subsection{Background of Data Center Energy}% 寫資料中心能源消耗、冷卻重要性
+With the rapid development of cloud computing and artificial intelligence, the scale and number of data centers have significantly increased, leading to a substantial rise in energy consumption. Among all components, cooling systems account for a large portion of the total energy usage, typically ranging from 30\% to 40\%. To ensure reliable system operation, continuous temperature regulation is required. However, inefficient cooling strategies can result in excessive energy consumption and reduced system efficiency. Therefore, improving energy efficiency, particularly in cooling systems, has become a critical research issue.
+
+\subsection{Importance of Thermal Management}% 寫溫度過高、hotspot、能源浪費
+In data centers, servers generate a large amount of heat during operation. Without effective heat dissipation, excessive temperatures and hotspots may occur, which can degrade system performance, shorten equipment lifespan, and increase the risk of failure. On the other hand, overcooling leads to unnecessary energy waste. Therefore, achieving a balance between maintaining safe operating temperatures and minimizing energy consumption is a key challenge in thermal management.
+
+\subsection{Role of AI and Digital Twin}% 寫 AI/ML、Digital Twin 對未來系統的重要性
+In recent years, artificial intelligence (AI) and machine learning (ML) techniques have been widely applied to temperature prediction and thermal management in data centers. Data-driven approaches enable more accurate temperature estimation, which helps optimize cooling strategies. In addition, Digital Twin technology provides a virtual representation of the physical system, allowing real-time monitoring and simulation. By integrating AI with Digital Twin, it is possible to improve system efficiency and enable intelligent control.
+
+\subsection{Research Motivation}% 寫你為什麼想研究這個方向
+Although existing studies have made progress in temperature prediction, cooling control, and system modeling, most approaches focus on individual components and lack end-to-end integration. For example, some works only address temperature prediction without linking it to control strategies, while others do not consider spatial temperature distribution or real-time implementation. Therefore, this research aims to integrate sensing, prediction, and control mechanisms within a Digital Twin framework to develop a more comprehensive and efficient thermal management system for data centers.
+
+\section{Literature Review}
+
+In recent years, various approaches have been proposed to improve thermal management and energy efficiency in data centers, including temperature prediction, sensor placement, cooling control, and system modeling.
+
+Many studies apply machine learning techniques, such as neural networks and time-series models, to predict temperature dynamics. While these methods effectively capture temporal behavior, they often lack spatial awareness. In addition, sensor placement strategies aim to improve monitoring accuracy, but limited sensors cannot fully represent the overall temperature distribution.
+
+For energy optimization, some works integrate prediction with workload scheduling or cooling control to reduce energy consumption and prevent hotspots. However, these methods are typically designed for specific tasks and lack system-level coordination. 
+
+Recently, Digital Twin technology has been introduced to model and simulate data center systems. Although it enables real-time monitoring and prediction, its integration with control mechanisms is still limited.
+
+Overall, existing studies focus on individual components rather than a unified framework. Therefore, this work aims to explore an integrated approach that combines sensing, prediction, and control for efficient thermal management.
+
+
+
+
+\subsection{Paper 1: Thermal Modeling and Thermal-Aware Energy Saving Methods for Cloud Data Centers}
+    
+        \subsubsection{\textbf{ Problem}}
+        
+                        The paper addresses the high energy consumption and complexity of thermal management in cloud data centers. Cooling systems consume a significant portion of the total energy, while temperature distribution is difficult to model due to complex airflow and system coupling. Therefore, an efficient thermal modeling and energy optimization strategy is required.
+
+        \subsubsection{\textbf{Method}}
+
+                        This paper is a survey work that categorizes existing approaches into two main parts:
+    
+         (1) Thermal Modeling
+                     
+                        \begin{itemize}
+                        \item White-box models: Physics-based (e.g., CFD, thermodynamics)
+                        \item Black-box models: Data-driven (e.g., ANN, GPR, XGBoost)
+                        \item Gray-box models: Combination of physical models and machine learning
+                        \end{itemize}
+                    
+                         
+        (2) Energy Saving Methods
+      
+                        \begin{itemize}
+                        \item Thermal-aware IT load scheduling
+                        \item Optimization of the cooling system control
+                        \item Joint optimization of IT and cooling systems
+                        \end{itemize}
+
+        \subsubsection{\textbf{ Input and Output}}
+
+        (1) Input
+        
+                    The system utilizes various input data, including the following:                    
+        \begin{itemize}
+                \item Sensor data (temperature, airflow)
+                \item IT workload (CPU utilization, power consumption)
+                \item Cooling parameters (fan speed, supply temperature)
+                \item System state (CRAC, airflow distribution)
+        \end{itemize}
+
+        (2) Output
+        
+                    The output of the system include the following:                   
+        \begin{itemize}
+            \item Temperature distribution (thermal profile)
+            \item Server inlet and outlet temperature
+            \item Chip temperature
+            \item Energy consumption estimation
+            \item Control decisions for scheduling and cooling
+        \end{itemize}
+        
+        \subsubsection{\textbf{ Limitation}}
+
+                     The paper has several limitations:      
+                \begin{itemize}
+                    \item High complexity of thermal modeling due to nonlinear airflow and heat transfer
+                \end{itemize}
+                \begin{itemize}
+                    \item CFD-based methods are accurate but computationally expensive
+                    \item Data-driven models depend heavily on data quality
+                    \item Weak integration between IT systems and cooling systems
+                    \item Liquid cooling technologies are still costly and lack standardization
+                \end{itemize}
+          
+        \subsubsection{\textbf{Summary}}
+
+                This paper provides a comprehensive review of thermal modeling and energy-saving methods in data centers. It highlights the importance of combining physical models with machine learning and emphasizes joint optimization of IT and cooling systems for improving energy efficiency.
+\newpage
+
+\subsection{Paper 2: Environmental sensor placement with convolutional }
+
+    \subsubsection{ Problem}
+    Environmental sensor placement aims to select optimal locations that maximize information gain and reduce prediction uncertainty, especially in sparse regions like Antarctica. Traditional GP-based methods face limitations in modeling complex non-stationary data and scaling to large datasets.
+
+
+    \subsubsection{Method}
+
+    This paper proposes a ConvGNP model to learn spatial patterns and uncertainty from both sensor observations and auxiliary data. Sensor locations are selected using uncertainty-based acquisition functions (e.g., JointMI, DeltaVar) to maximize the reduction of prediction uncertainty.
+
+    \subsubsection{ Input and Output}
+
+                \textbf{Input:}
+                \begin{itemize}
+                    \item Context set 1: Sparse temperature anomaly observations (sensor data)
+                    \item Context set 2: Gridded auxiliary data (e.g., elevation, land mask, spatial coordinates)
+                    \item Target locations $X^{(t)}$
+                \end{itemize}
+            
+                \textbf{Output:}
+                \begin{itemize}
+                    \item Predicted temperature anomaly mean $\mu$
+                    \item Covariance matrix $K$ representing spatial dependencies
+                    \item Suggested sensor placement locations $X^*$
+                \end{itemize}
+
+    \subsubsection{Result}
+
+            The ConvGNP significantly outperforms GP-based baselines in terms of RMSE, marginal NLL, and joint NLL. It is able to better capture non-stationary spatial patterns and provide well-calibrated uncertainty estimates. In sensor placement experiments, ConvGNP-based acquisition functions achieve more informative sensor configurations, leading to greater reduction in prediction error compared to traditional methods.
+            
+
+    \subsubsection{Limitation}
+    
+                \begin{itemize}
+                    \item The model is trained on simulated reanalysis data (ERA5), which may not fully reflect real-world sensor noise and biases.
+                    \item Temporal dependencies are not explicitly modeled, as each time step is treated independently.
+                    \item The approach relies on sufficient training data; performance may degrade in extremely sparse observation scenarios.
+                    \item The ConvGNP learns non-Bayesian conditioning, which may require large datasets and careful training.
+                \end{itemize}
+    
+    \subsubsection{Summary}
+
+                This paper proposes ConvGNP for sensor placement by modeling spatial uncertainty and selecting locations that maximize information gain, achieving better performance than GP methods.
+
+\newpage
+
+\subsection{Paper 3:
+        Intelligent Sensor Placement for Hot Server Detection in Data Centers}
+    \subsubsection{Problem}
+
+                Data centers suffer from inefficient cooling due to the lack of accurate thermal monitoring. Existing sensor deployment methods, such as uniform placement, do not consider thermal dynamics, leading to low hot-server detection probability. 
+                The key problem is how to optimally place a limited number of sensors to maximize detection performance while controlling false alarms.
+
+    \subsubsection{Method}
+    
+                The paper proposes a CFD-guided sensor placement approach combined with data fusion and optimization. First, Computational Fluid Dynamics (CFD) is used to model the temperature distribution under various overheating scenarios. Then, a data fusion model is applied to improve detection reliability. Finally, a Lightweight Sensor Placement (LSP) algorithm is developed to efficiently find near-optimal sensor locations that maximize detection probability or minimize the number of sensors.
+ 
+    \subsubsection{Input and Output}
+
+            \textbf{Input:}
+            \begin{itemize}
+                \item Data center layout (rack positions, CRAC locations)
+                \item Airflow and temperature conditions (from CFD simulation)
+                \item Sensor noise model and detection threshold
+                \item Constraints on false alarm rate and detection probability
+            \end{itemize}
+            
+            \textbf{Output:}
+            \begin{itemize}
+                \item Optimal sensor placement locations
+                \item Detection probability for each monitored location
+                \item Minimum number of sensors required to meet performance constraints
+            \end{itemize}
+
+    \subsubsection{Result}
+    
+            Simulation and hardware experiments show that the proposed CFD+LSP method significantly outperforms uniform and random placement strategies. It achieves higher detection probability with fewer sensors. In large-scale data centers, the method can reach over 80\% detection probability with limited sensors, and reduces sensor usage by up to 20\%~50\% compared to baseline approaches.
+
+    
+    \subsubsection{Limitation}
+
+            The proposed approach relies heavily on CFD modeling accuracy and requires high computational cost. It assumes static or predefined overheating scenarios, which may not fully reflect dynamic real-world conditions. In addition, practical constraints such as sensor communication, deployment limitations, and hardware variability are not fully considered.
+
+    \subsubsection{Summery}   
+            
+            This work addresses optimal sensor placement in data centers by leveraging CFD-based thermal modeling and optimization. The proposed CFD+LSP method effectively improves hot-server detection probability while reducing the number of required sensors. Both simulation and hardware results validate its superiority over conventional uniform strategies, although it depends on accurate modeling and has higher computational cost.
+\newpage
+ 
+\subsection{Paper 4: Machine Learning-Based Temperature Prediction for Runtime Thermal Management Across System Components}
+            
+    \subsubsection{Problem}
+    
+                   \begin{itemize}
+                   
+                        \item  High temperature causes thermal throttling and performance degradation.
+                        \item temperature varies across nodes even under identical workloads.
+                        \item Traditional thermal models require hardware-specific information and are not suitable for runtime decision.
+                    \end{itemize}
+                    
+    \subsubsection{Method}
+
+                \begin{itemize}
+                   \item Use machine learning models for temperature prediction.
+                    \item Models include Reduced Gaussian Process (GP), MLP, and Lasso regression.
+                    \item Apply feature selection to reduce complexity.
+                    \item Use predicted temperature to guide task placement.
+                \end{itemize}
+                
+    \subsubsection{Input and Output}
+
+                \begin{itemize}
+                   \item Input:
+                        Application features $A(t)$ (e.g., instructions, cache miss).
+                        Physical features $P(t)$ (e.g., temperature, power).
+                 \end{itemize}  
+
+                 \begin{itemize}
+                   \item Output:
+                    Predicted temperature $P(t+1)$.
+                    Thermally optimal task placement decision.
+                 \end{itemize}
+                 
+    \subsubsection{Result}
+
+                \begin{itemize}
+                    \item Reduced GP reduces the average prediction error from $4.2^\circ C$ to $2.9^\circ C$.
+                    \item MLP achieves an average prediction error of about $2.9^\circ C$.
+                    \item Lasso regression achieves an average prediction error of about $3.8^\circ C$.
+                    \item Task placement success rates are $75\%$ for Reduced GP, $82.5\%$ for MLP, and $74.17\%$ for Lasso.
+                    \item The best task placement can reduce temperature by up to $11.9^\circ C$.
+                \end{itemize}
+
+    \subsubsection{Limitation}
+
+                \begin{itemize}
+                    \item The benchmark diversity is limited.
+                    \item The training samples are selected randomly.
+                    \item The decoupled model ignores thermal coupling between nodes.
+                    \item Large-scale system evaluation is still limited.
+                    \item Dynamic scheduling overhead is not fully considered.
+                \end{itemize} 
+                
+    \subsubsection{Summery}
+                    This paper proposes a lightweight machine learning-based framework for temperature prediction in HPC systems. By using Reduced Gaussian Process, MLP, and Lasso regression models, the method achieves lower prediction error and reduced computational overhead. The predicted temperature is further applied to thermal-aware task scheduling, enabling better task placement decisions. Among the proposed models, MLP provides the highest success rate in selecting thermally optimal configurations, demonstrating the effectiveness of combining temperature prediction with system-level decision making.
+
+\newpage
+
+\subsection{Paper 5:
+        An Intelligent Thermal Management Strategy for a Data Center Prototype Based on Digital Twin Technology}
+    \subsubsection{Problem}
+    Data centers consume a large amount of energy, where cooling systems account for nearly 50\% of the total energy consumption. Traditional thermal management strategies cannot simultaneously optimize energy efficiency and thermal safety. In addition, limited sensor deployment makes it difficult to reconstruct the full temperature field and detect hotspots in real time.
+
+    \subsubsection{Method}
+    This paper proposes a Digital Twin-based thermal management framework. A U-Net model is trained using CFD simulation data to reconstruct the temperature field in real time. A Deep Q-Network (DQN) is applied to optimize the cooling policy by adjusting the CRAC set temperature. The reward function considers PUE reduction, temperature uniformity, and hotspot suppression.
+
+    \subsubsection{Input and Output}
+    
+                \textbf{Input:}
+                \begin{itemize}
+                    \item Temperature sensor data (thermocouples)
+                    \item Server power (heat load)
+                    \item CRAC set temperature
+                \end{itemize}
+                
+                \textbf{Output:}
+                \begin{itemize}
+                    \item Reconstructed temperature field (U-Net)
+                    \item Optimal cooling decision (DQN action)
+                \end{itemize}
+                
+    \subsubsection{Result}
+    
+    The U-Net achieves a prediction accuracy of MAE = 2.27$^\circ$C and MAPE = 9.21\%. The DQN-based method outperforms fixed-temperature strategies, achieving about 26\% improvement in total reward and 36--40\% improvement in energy efficiency compared to conventional settings. It can also effectively avoid hotspot formation.
+
+    \subsubsection{Limitation}
+    The experiment is conducted on a small-scale prototype, which may limit scalability to real data centers. The temperature prediction still contains errors, which may affect decision accuracy. In addition, the DQN training process is time-consuming and may become inefficient in larger and more complex environments.
+
+    \subsubsection{Summery}
+    This study integrates Digital Twin, U-Net, and DQN to achieve real-time thermal management in data centers. The proposed method effectively balances energy efficiency and thermal safety, demonstrating the potential of AI-driven control for intelligent data center operation.
+\newpage
+
+\subsection{Paper 6: AI-driven-cooling-optimization-in-data-centers-Reinforcement-learning-for-dynamic-workload-placement-and-HVAC-control}
+    \subsubsection{Problem}
+    This paper focuses on the high cooling energy consumption in data centers. Traditional rule-based workload placement and HVAC control methods cannot adapt well to dynamic workload changes and thermal variations. As a result, they may cause overcooling, thermal hotspots, higher PUE, and increased operational cost.
+
+    \subsubsection{Method}
+    The paper proposes a reinforcement learning-based framework to jointly optimize workload placement and HVAC control. The data center is modeled as a dynamic decision-making environment. A multi-agent or hierarchical RL structure is used: one agent manages workload placement, while another agent adjusts HVAC parameters such as cooling setpoints, airflow rates, and fan speeds.
+
+    \subsubsection{Input and Output}
+                \textbf{Input:}
+                \begin{itemize}
+                    \item Temperature data at multiple locations
+                    \item Server workload (CPU/GPU utilization)
+                    \item HVAC operating parameters (fan speed, airflow, cooling setpoints)
+                    \item External environmental conditions (weather, ambient temperature)
+                    \item Thermal hotspot indicators or predictions
+                \end{itemize}
+                
+                \textbf{Output:}
+                \begin{itemize}
+                    \item Workload placement decisions (task migration between servers)
+                    \item HVAC control actions (fan speed adjustment, cooling setpoint tuning)
+                    \item Airflow and cooling resource allocation
+                \end{itemize}
+
+    \subsubsection{Result}
+    The proposed RL-based method is evaluated in a simulation environment. Compared with static and heuristic policies, the RL framework reduces cooling energy consumption by about 15\%--22\%. It also improves PUE, reduces thermal hotspot incidents, maintains high SLA compliance, and provides more stable thermal management.
+
+    \subsubsection{Limitation}
+    The main limitation is that the evaluation is based on simulation rather than real-world data center deployment. Real data centers have more complex conditions, such as heterogeneous hardware, unpredictable failures, multi-tenant workloads, and changing environmental conditions. In addition, RL training may require high computational cost and careful safety mechanisms before real deployment.
+
+    \subsubsection{Summery}
+    This paper demonstrates that reinforcement learning can be used to jointly optimize workload placement and HVAC control in data centers. By considering both computing workload and cooling operation together, the proposed method reduces energy consumption while maintaining thermal safety and SLA performance. However, further real-world validation is still needed to verify its scalability and practical feasibility.
+    
+\newpage
+
+\subsection{Paper 7:nGRG-RR-2023-01-O-RAN-Towards-6G-v1 3}
+    \subsubsection{Problem}
+    Current O-RAN architecture is not sufficient to support 6G requirements such as AI-native networking, real-time analytics, energy efficiency, and diverse use cases. There exist gaps between future 6G requirements and existing O-RAN standards.
+
+    \subsubsection{Method}
+    A survey-based analysis is conducted by O-RAN members to identify key 6G use cases, architectural gaps, and future directions. The study proposes AI/ML-native architecture, Digital Twin integration, enhanced RAN design, and end-to-end network automation.
+
+    \subsubsection{Input and Output}
+                Input:
+                Survey responses from O-RAN member companies regarding 6G use cases, architecture, and system requirements.
+                
+                Output:
+                Identified key trends including AI/ML deployment, Digital Twin usage, network automation, security-by-design, and required architectural enhancements for O-RAN towards 6G.
+
+    \subsubsection{Result}
+    The study shows that AI/ML in all network layers, real-time analytics, softwarization, and edge-centric architectures are the most critical directions. Most participants agree that O-RAN, 3GPP, and legacy systems will coexist in future 6G networks.
+
+    \subsubsection{Limitation}
+    The work is based on a limited number of survey responses and lacks experimental validation, simulation results, and quantitative performance analysis.
+
+    \subsubsection{Summery}
+    This report highlights the evolution path of O-RAN towards 6G, emphasizing AI-native architecture, Digital Twin integration, and end-to-end intelligent network management, while identifying key gaps in current systems.
+\newpage
+
+\subsection{Paper 8:A Deep Learning-Based Thermal Prediction Approach for Energy Management in Cloud Data Centers}
+    \subsubsection{Problem}
+    \subsubsection{Method}
+    \subsubsection{Input and Output}
+    \subsubsection{Result}
+    \subsubsection{Limitation}
+\newpage
+
+\subsection{Paper 9:Energy-Efficient Task Distribution Using Neural Network Temperature Prediction in a Data Center}
+    \subsubsection{Problem}
+    \subsubsection{Method}
+    \subsubsection{Input and Output}
+    \subsubsection{Result}
+    \subsubsection{Limitation}
+
+
+\newpage
+\subsection{Paper 10:Integrating Experimental Numerical and Machine Learning Models for Real-Time Efficient Data Center Cooling Control}
+    \subsubsection{Problem}
+    \subsubsection{Method}
+    \subsubsection{Input and Output}
+    \subsubsection{Result}
+    \subsubsection{Limitation}
+% Paper 3 ~ Paper 10 照這個格式複製
+\newpage
+
+\section{Category-based Analysis}
+
+    \subsection{Sensing Methods}
+    Sensing methods are used to collect environmental and operational data in data centers, such as temperature, airflow, and server utilization. Many studies focus on optimizing sensor placement to improve monitoring accuracy under limited sensing resources. These methods can obtain real measurements with relatively low cost. However, sensor data are typically localized and cannot represent the global temperature distribution. Therefore, sensing alone is insufficient for comprehensive thermal management.
+
+    \subsection{Temperature Prediction Methods}
+    Temperature prediction methods usually employ machine learning models, such as neural networks and LSTM, to estimate future temperature based on historical data and system workload. These approaches are effective in capturing temporal dynamics and can provide early warnings of temperature increase. However, most methods focus on point-wise prediction and lack spatial awareness, making them insufficient for detecting hotspots across the entire data center.
+
+    \subsection{Temperature Reconstruction Methods}
+    Temperature reconstruction methods aim to recover the full temperature field from limited sensor data. Deep learning models, such as convolutional neural networks and U-Net, are commonly used to capture spatial relationships. These approaches can provide a global view of temperature distribution and improve hotspot detection. However, they usually require a large amount of training data and may suffer from limited generalization in real-world environments.
+
+    \subsection{Control and Optimization Methods}
+    Control and optimization methods utilize sensing or prediction results to adjust system operations, such as workload scheduling and cooling control. Common techniques include reinforcement learning and genetic algorithms. These methods can effectively reduce energy consumption and prevent overheating. However, most of them are designed for specific objectives and lack coordination across different system components.
+
+    \subsection{System-level Modeling and Digital Twin}
+    System-level modeling methods aim to construct a comprehensive representation of the data center, such as Digital Twin models. These approaches enable simulation, prediction, and real-time decision-making by integrating multiple system components. While Digital Twin has the potential to unify sensing, prediction, and control, its practical implementation still faces challenges in accuracy and real-time performance.
+
+\section{Cross-paper Comparison}
+
+    \subsection{Overall Comparison}
+    
+                \begin{table}[h]
+                    \centering
+                    \caption{Comparison of Reviewed Papers}
+                        \begin{tabular}{p{2cm} p{3cm} p{3cm} p{3cm} p{3cm}}
+                        \toprule
+                        Paper & Method & Input & Output & Limitation \\
+                        \midrule
+                        Paper 1 & Review of thermal modeling and energy-saving methods & Existing literature, system models & Categorized methods and research gaps & No experimental validation, lacks unified framework \\
+                        
+                        Paper 2 & ConvGNP + active learning for sensor placement & Sensor data, spatial features (elevation, mask) & Optimal sensor locations, probabilistic prediction & Uses simulated data, no temporal modeling \\
+                        
+                        Paper 3 & CFD-based modeling + optimization for sensor placement & Server layout, airflow, thermal data & Optimal sensor placement, improved hotspot detection & High computational cost, depends on CFD accuracy \\
+                        
+                        Paper 4 & ML-based prediction (GP, NN, Lasso) for scheduling & Application features, physical features & Temperature prediction, task scheduling decision & Requires training data, lacks spatial modeling \\
+                        
+                        Paper 5 & Digital Twin + U-Net + DQN & Sensor data, server power, AC temperature & Temperature field reconstruction, optimal cooling policy & Small-scale prototype, relies on CFD data \\
+                        
+                        Paper 6 &  &  &  &  \\
+                        Paper 7 &  &  &  &  \\
+                        Paper 8 &  &  &  &  \\
+                        Paper 9 &  &  &  &  \\
+                        Paper 10 &  &  &  &  \\
+                        \bottomrule
+                        \end{tabular}
+                \end{table}
+
+\subsection{Method Comparison}
+\subsection{Static vs Dynamic Analysis}
+\subsection{Real-world Deployment Analysis}
+
+\section{Research Gap}
+
+\subsection{Lack of End-to-End Integration}
+\subsection{Lack of Spatial Temperature Modeling}
+\subsection{Limited Digital Twin-based Control}
+\subsection{Real-time Implementation Challenges}
+
+\section{Proposed Framework}
+
+\subsection{System Architecture}
+\subsection{Data Flow}
+\subsection{Integration of AI and Digital Twin}
+\subsection{Expected Advantages}
+
+\section{Conclusion}
+
+\end{document}
