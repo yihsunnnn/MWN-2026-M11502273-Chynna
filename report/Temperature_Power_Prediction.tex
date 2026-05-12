@@ -1,0 +1,228 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{color}
+\begin{document}
+
+\title{Thermal Monitoring and Thermal-Aware Energy Saving Methods for Cloud Data Centers}
+\author{
+\author{\IEEEauthorblockN{
+        Daffa Sayra Firdaus\IEEEauthorrefmark{2}, 
+        Ray-Guang Cheng\IEEEauthorrefmark{1},
+        Yi-Hsun Chen \IEEEauthorrefmark{3},
+        \\
+  }
+ \IEEEauthorblockA{\IEEEauthorrefmark{1}
+Dept. of Electronic and Computer Engineering, National Taiwan University of Science and Technology, Taiwan
+  }
+ \IEEEauthorblockA{\IEEEauthorrefmark{2}
+University of Indonesia, Indonesia
+    \\
+  }
+ \IEEEauthorblockA{\IEEEauthorrefmark{3}
+     \\
+  }
+  Email: crg@mail.ntust.edu.tw
+}
+
+\IEEEauthorblockA{
+Department of Electronic and Computer Engineering, National Taiwan University of Science and Technology\\
+Taipei, Taiwan, Republic of China \\
+Email: crg@mail.ntust.edu.tw}
+}
+
+\maketitle
+% 1. 請先各自複製本範本的內容，根據這裡所點出的大綱來寫，無關的內容請勿放入。自己加的內容請用「藍字」，老師改過需要確認會用「紅字」，紅字內容確認無誤的字句請自行改為黑字，有問題改成「藍色」。
+% 2. 縮寫字第一次出現前記得要先定義，原則上只有句首第一個字母大寫，請勿誤用！
+% 3. 請用國中英文直述句來寫，正確性最重要
+% 4. 本範本請先寫System Model、Propose Solution, 以及 Numercial/Experimental Results。Introduction請留到最後
+% 5. Introduction僅留下「絕對必要」資訊(沒提到後面就講不下去)即可！
+% 6. 使用任何變數前請先「定義」，寫下變數與公式前，請先想清楚，這是「問題」(I/P)、「答案」(O/P)、「推導過程」(Your Algorithm)、還是「範例」(Example)
+% 問題與答案放在System Model，
+% 推導過程放在Analytical Model，
+% 範例放在Numercial Results
+
+\begin{Abstract}
+        The goal of this report to identify existing AI/ML models capable of handling multi-factor correlations to address the difficulty in temperature prediction caused by diverse rack equipment configurations and varying sensor placements (where traditional lookup-table methods are no longer effective). We may propose improvements and recommendations for
+        (1) temperature monitoring and CPU/GPU overheating prevention mechanisms, and (2) power consumption monitoring mechanisms to improve rack utilization.
+\end{Abstract}
+
+\section{Introduction}
+    In recent years, the rapid growth of cloud computing, artificial intelligence, and large-scale Internet services has significantly increased the number and scale of data centers. As a result, energy consumption in data centers has become a major concern for both academia and industry. Among various energy-consuming components, cooling systems account for approximately 30\%--40\% of the total power consumption in a typical data center [1]. Therefore, improving energy efficiency while maintaining thermal reliability has become an important research topic.
+
+Data centers continuously generate a large amount of heat during operation. Without effective thermal management, excessive temperatures and hotspot regions may occur, leading to hardware degradation, reduced system performance, and increased failure rates [2]. On the other hand, excessive cooling may cause unnecessary energy waste and higher operational costs. Consequently, balancing thermal safety and energy efficiency has become a critical challenge in modern data center systems [3].
+
+To address these challenges, many recent studies have introduced artificial intelligence (AI) and machine learning (ML) techniques for temperature prediction and thermal-aware optimization [2], [5]. Data-driven methods such as neural networks, Long Short-Term Memory (LSTM), and reinforcement learning have demonstrated strong capability in thermal prediction and cooling optimization [5], [8]. In addition, Digital Twin technology has recently attracted significant attention because it enables real-time monitoring, simulation, and control through virtual representations of physical systems [6]. By integrating AI models with Digital Twin platforms, data centers can achieve more adaptive and intelligent thermal management.
+
+Although many existing studies focus on temperature prediction, sensor placement, or cooling optimization individually, few works provide a complete end-to-end framework integrating sensing, prediction, reconstruction, and control simultaneously. Furthermore, real-time implementation and spatial temperature modeling remain difficult due to the complexity of airflow interaction and workload variation in large-scale data centers.
+
+This report addresses the problem of inefficient thermal management and excessive energy consumption in cloud data centers. The goal of this report is to investigate recent AI- and Digital Twin-based approaches for improving temperature monitoring, overheating prevention, and energy-efficient operation in modern data centers.
+
+The main contributions of this report are summarized as follows:
+\begin{itemize}
+\item Review recent AI- and Digital Twin-based thermal management methods for cloud data centers.
+\item Compare temperature monitoring, thermal prediction, and cooling optimization approaches.
+\item Analyze the advantages, limitations, and research gaps of existing studies.
+\item Discuss future directions for intelligent and adaptive thermal management systems.
+\end{itemize}
+
+The rest of this report is organized as follows. Section II discusses recommendations to improve rack utilization, including temperature monitoring, overheating prevention, and power consumption monitoring mechanisms. Section III introduces the system model and architecture. Section IV presents the proposed methodology and analysis. Finally, Section V concludes this report and discusses future research directions.
+    
+\section{Recommendations to Improve Rack Utilization}
+Improving rack utilization is an important issue in modern data centers because high rack utilization can increase computing efficiency, but it may also cause higher temperature, hotspots, and power consumption. Therefore, rack utilization should not only focus on placing more workloads into servers, but also consider thermal safety and energy efficiency.
+
+Based on the reviewed papers, this section summarizes three major directions for improving rack utilization: temperature monitoring mechanisms, CPU/GPU overheating prevention mechanisms, and power consumption monitoring mechanisms. Temperature monitoring helps detect abnormal thermal conditions and build accurate thermal information. Overheating prevention mechanisms reduce the risk of hotspots through prediction-based workload scheduling and thermal-aware control. Power consumption monitoring further supports energy-efficient operation by analyzing the relationship between workload, temperature, and cooling energy.
+
+Through these mechanisms, data centers can improve resource usage while maintaining system reliability and reducing unnecessary energy waste.
+\subsection{Temperature Monitoring Mechanisms}
+Temperature monitoring is one of the most important mechanisms in data center thermal management. Accurate temperature information helps prevent hotspots, improve cooling efficiency, and maintain reliable system operation. Traditional temperature monitoring methods mainly rely on distributed thermal sensors and Computational Fluid Dynamics (CFD) simulations to estimate thermal behavior inside data centers [4]. Although CFD-based approaches can provide detailed thermal analysis, they usually require high computational cost and are difficult to apply in real-time systems.
+
+To overcome these limitations, recent studies have introduced data-driven and AI-based temperature monitoring methods. Wang et al. [4] proposed an intelligent sensor placement method to improve hotspot detection accuracy while reducing the number of required sensors. Their work demonstrated that proper sensor placement can significantly improve thermal monitoring performance in data centers.
+
+In addition, machine learning techniques have been widely applied to thermal prediction and spatial temperature reconstruction. Andersson et al. [7] proposed Environmental Sensor Placement with Convolutional Gaussian Neural Processes (ConvGNP), which combines spatial learning and uncertainty estimation for environmental sensing. This method improves temperature estimation accuracy even when only a limited number of sensors are available.
+
+Recent Digital Twin-based approaches further enhance temperature monitoring capability by integrating real-time sensor data with virtual thermal models [6]. Through continuous synchronization between physical systems and virtual models, Digital Twin technology enables real-time thermal observation, prediction, and analysis. Moreover, deep learning models such as U-Net have also been used for spatial temperature reconstruction based on sensor measurements and CFD-generated datasets.
+
+Although these approaches improve monitoring accuracy and spatial thermal awareness, several challenges still remain. First, installing a large number of sensors increases deployment cost and system complexity. Second, thermal behavior in data centers is highly dynamic due to workload variation and airflow interaction. Finally, achieving accurate real-time monitoring while maintaining low computational overhead is still difficult in large-scale environments.
+\subsection{CPU/GPU Overheating Prevention Mechanisms}
+Preventing CPU and GPU overheating is an important objective in data center thermal management. As cloud computing and AI applications continue to grow, modern servers generate increasingly high thermal density during operation. Excessive temperatures may lead to thermal throttling, hardware degradation, system instability, and even service interruption. Therefore, effective overheating prevention mechanisms are required to maintain reliable and efficient operation.
+
+Traditional thermal management methods mainly rely on static workload scheduling or fixed cooling policies. However, these approaches are often unable to respond effectively to dynamic workload variations and rapidly changing thermal conditions. To address this problem, many recent studies have introduced prediction-based thermal management approaches.
+
+Machine learning models such as neural networks and Long Short-Term Memory (LSTM) networks have been widely applied to predict future CPU temperatures and power consumption [2], [5]. By forecasting thermal behavior in advance, systems can perform thermal-aware workload scheduling and Virtual Machine (VM) placement before hotspots occur. For example, DLTPA utilizes LSTM-based prediction together with heuristic optimization algorithms to reduce CPU temperature and power consumption simultaneously [5].
+
+In addition, AI-driven optimization approaches such as reinforcement learning and heuristic scheduling algorithms have been proposed for dynamic thermal control [8]. These methods continuously adjust workload allocation and cooling strategies according to real-time temperature and power information. Compared with static methods, dynamic optimization approaches achieve better thermal regulation and higher energy efficiency.
+
+Recently, GPU overheating has also become an important issue because AI training and high-performance computing workloads significantly increase GPU thermal density. As a result, future thermal management systems must consider both CPU and GPU thermal behavior simultaneously.
+
+Although existing methods have shown promising results, several challenges still remain. Many studies focus mainly on CPU thermal management and do not fully consider GPU behavior or cooling infrastructure integration. In addition, prediction errors may reduce scheduling effectiveness, while real-time optimization often introduces high computational overhead in large-scale systems.
+\subsection{Power Consumption Monitoring Mechanisms}
+Power consumption monitoring is an essential component of energy-efficient data center management. Modern data centers consume a large amount of electrical energy not only for computing equipment, but also for cooling infrastructure such as CRAC systems, HVAC systems, fans, and pumps. Therefore, monitoring and optimizing power consumption have become important research topics for reducing operational cost and improving sustainability.
+
+Recent studies have introduced AI- and machine learning-based approaches to predict and analyze power consumption in data centers. Deep learning models such as neural networks and LSTM have been widely used to estimate future power usage based on workload information, CPU utilization, memory usage, and thermal conditions [2], [5]. Accurate power prediction allows systems to perform proactive resource management and energy-aware scheduling.
+
+In addition, several studies have focused on cooling energy optimization. Reinforcement learning and AI-driven control methods have been proposed to dynamically adjust HVAC operation, cooling airflow, and workload distribution according to real-time environmental conditions [8]. These approaches aim to reduce cooling energy consumption while maintaining thermal safety and system stability.
+
+Digital Twin technology has also been applied to power monitoring and thermal-energy co-optimization [6]. By integrating sensor data, thermal models, and AI prediction algorithms into a virtual environment, Digital Twin platforms enable real-time monitoring, simulation, and control of both temperature and energy consumption. This improves operational visibility and supports intelligent decision-making.
+
+Recently, many researchers have recognized that temperature and power consumption are strongly coupled. Excessive cooling may waste energy, while insufficient cooling may increase thermal risk and reduce hardware reliability. Therefore, joint optimization of thermal management and power consumption has become an important research direction in modern intelligent data centers.
+
+Although current approaches improve energy efficiency, several challenges still remain. Prediction accuracy may decrease under highly dynamic workloads, and real-time optimization often requires significant computational resources. Moreover, integrating IT systems, cooling infrastructure, and AI control mechanisms into a unified framework remains difficult in large-scale environments.
+
+%Typical content:
+%\begin{itemize}
+%\item Background and motivation
+%\item Problem statement
+%\item Goals of the paper
+%\item Contributions (what’s new or important)
+%\item High-level overview of the approach or results
+%\end{itemize}
+
+%Example phrases:
+%\begin{itemize}
+%\item “In recent years, …”
+%\item “This paper addresses the problem of …”
+%\item “Our main contributions are …”
+%\end{itemize}
+
+\subsection{Related Works}
+Several studies have explored thermal management and energy-saving methods for cloud data centers. Traditional approaches mainly relied on thermal sensors and Computational Fluid Dynamics (CFD) simulations to analyze airflow and temperature distribution inside data centers [4]. Although CFD-based methods provide accurate thermal analysis, they usually require high computational cost and are difficult to apply in real-time environments.
+
+To improve monitoring efficiency, many recent studies have introduced machine learning and deep learning techniques for temperature prediction and thermal-aware control. Zhang et al. [2] proposed a machine learning-based temperature prediction framework for runtime thermal management across system components. Wang et al. [4] developed an intelligent sensor placement method to improve hotspot detection accuracy while reducing the number of sensors required in data centers.
+
+In addition, several AI-based optimization approaches have been proposed for thermal-aware scheduling and cooling control. DLTPA [5] utilized LSTM-based temperature and power prediction together with heuristic optimization algorithms to reduce CPU temperature and energy consumption simultaneously. AI-driven cooling optimization using reinforcement learning was further investigated in [8], which dynamically adjusted workload placement and HVAC control according to real-time thermal conditions.
+
+Recently, Digital Twin technology has also been introduced into data center thermal management systems [6]. By integrating real-time sensor data with virtual thermal models, Digital Twin platforms enable continuous monitoring, prediction, and intelligent control. Compared with traditional methods, Digital Twin-based approaches provide better system visibility and support adaptive thermal management.
+
+Although many previous studies have achieved promising results, several limitations still remain. Most existing works focus only on specific components such as temperature prediction, sensor placement, or cooling optimization individually. Prior work has not fully considered the integration of sensing, prediction, reconstruction, optimization, and control within a unified framework. In addition, real-time implementation and spatial thermal modeling remain challenging in large-scale environments.
+
+
+
+
+%{\bf Purpose:} To show how your work fits into the existing body of knowledge, and how it differs from or improves upon previous work.
+
+%Typical content:
+%\begin{itemize}
+%\item Summary of key prior research
+%\item Strengths and limitations of existing approaches
+%\item Comparison to your approach
+%\item Justification for why a new approach is needed
+%\end{itemize}
+
+%Example phrases:
+%\begin{itemize}
+%\item “Several studies have explored …”
+%\item “Unlike [Author], we propose …”
+%\item “Prior work has not considered …”
+%\end{itemize}
+
+% Background Knowledge directly related to Your Thesis Title
+
+% Related Work
+
+% Contribution: The last TWO paragraphs of your paper.
+%The main contributions of this paper are summarized as follows.
+%\begin{itemize}
+%\item Contribution 1.
+%\item Contribution 2. 
+%\item Contribution 3. 
+%\end{itemize}
+
+
+\section{System Model/Architecture}
+
+Figure~\ref{fig:Fig1} shows the system model/architecture considered in this paper.
+(Draw a figure showing the key components and their relationship in the system model. It may consist the I/P and O/P parameters of your system or the major components showing your contributions.) 
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=1\columnwidth]{system_architecture.png}
+    \caption{System architecture of the proposed AI- and Digital Twin-based thermal management framework.}
+    \label{fig:Fig1}
+    \end{figure}
+    
+The following assumptions were made in this paper.
+\begin{itemize}
+\item Temperature sensors are capable of providing real-time environmental data from the data center.
+
+\item Workload information, including CPU utilization, power consumption, and server status, can be continuously collected during system operation.
+ 
+\item The Digital Twin model is synchronized with the physical data center and can update thermal information in real time.
+ 
+\end{itemize}
+
+
+\begin{thebibliography}{00}
+\bibitem{T1} 
+J. Lin, {\it et al.}, ``Thermal Modeling and Thermal-Aware Energy Saving Methods for Cloud Data Centers: A Review," in {\it IEEE Transactions on Sustainable Computing}, vol. 9, no. 3, pp. 571-590, May-June 2024.
+%\bibitem{T2}
+%K. Zhang, {\it et al.}, ``Machine Learning-Based Temperature Prediction for Runtime Thermal Management Across System Components," in {\it IEEE Transactions on Parallel and Distributed Systems}, vol. 29, no. 2, pp. 405-419, 1 Feb. 2018.
+\bibitem{T2}
+T. R. Andersson, {\it et al.}, ``Environmental Sensor Placement with Convolutional Gaussian Neural Processes", arxiv.org
+%\bibitem{T3}
+%K. Sano, {\it et al.}, ``Improving Accuracy of Temperature Distribution and Energy-Saving Technology of Air Conditioners in Data Centers," in {\it IEEE Transactions on Components, Packaging and Manufacturing Technology}, vol. 8, no. 5, pp. 811-817, May 2018.
+\bibitem{T3}
+X. Wang, {\it et al.}, ``Intelligent Sensor Placement for Hot Server Detection in Data Centers," in {\it IEEE Transactions on Parallel and Distributed Systems}, vol. 24, no. 8, pp. 1577-1588, Aug. 2013.
+\bibitem{T4}
+K. Zhang,{\it et al.}, ``Machine Learning-Based Temperature Prediction for Runtime Thermal Management Across System Components," in{\it IEEE Transactions on Parallel and Distributed Systems}, vol. 29, no. 2, pp. 405-419, 1 Feb. 2018
+\bibitem{T5}
+%S. Wang, {\it et al.}, ``Data center temperature prediction and management based on a Two-stage self-healing model," {\it Simulation Modelling Practice and Theory}, vol. 132, April 2024.
+
+H. Yuan H, {\it et al.}, ``An Intelligent Thermal Management Strategy for a Data Center Prototype Based on Digital Twin Technology," {\it Applied Sciences}, June 2025.
+\bibitem{T6}
+D. Tomar, {\it et al.}, ``AI-driven cooling optimization in data centers: Reinforcement learning for dynamic workload placement and HVAC control," {\it International Journal of Computer Techniques (IJCT)}, vol. 12, no. 5, Sep. 2025
+\bibitem{T7}
+L. Chen, {\it et al.}, "A Deep Learning-Based Thermal Prediction Approach for Energy Management in Cloud Data Centers," in {\it IEEE Transactions on Parallel and Distributed Systems},2024
+\bibitem{T8}
+%T. R. Andersson, {\it et al.}, ``Environmental Sensor Placement with Convolutional Gaussian Neural Processes, arxiv.org
+
+M. Omori,{\it et al.} , "Energy-Efficient Task Distribution Using Neural Network Temperature Prediction in a Data Center",in {\it IEEE Transactions on Parallel and Distributed Systems} 2019 IEEE 17th International Conference on Industrial Informatics (INDIN), Helsinki, Finland, 2019
+
+\bibitem{T9}
+D. S. K. Math, {\it et al.}, "Integrating Experimental, Numerical and Machine Learning Models for Real-Time, Efficient Data Center Cooling Control",{\it IEEE Transactions on Parallel and Distributed Systems}, 2025 
+
+\end{thebibliography}
+\end{document}
+
