@@ -1,4 +1,4 @@
-# <div align="center">0527~0529 Study Notes - Rack-Level Thermal Prediction Framework</div>
+# <div align="center">0526~0528 Study Notes - Rack-Level Thermal Prediction Framework</div>
 ---
 ### Table of Contents
 
