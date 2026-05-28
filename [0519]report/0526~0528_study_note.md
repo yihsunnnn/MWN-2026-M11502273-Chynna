@@ -1,6 +1,24 @@
 # <div align="center">0527~0529 Study Notes - Rack-Level Thermal Prediction Framework</div>
 ---
+### Table of Contents
 
+- [1. Research Objective](#1-research-objective)
+- [2. Motivation](#2-motivation)
+- [3. Proposed Rack-Level Framework](#3-proposed-rack-level-framework)
+- [4. Data Input Layer](#4-data-input-layer)
+  - [4.1 Redfish Data](#41-redfish-data)
+  - [4.2 PDU Data](#42-pdu-data)
+  - [4.3 Rack Metadata](#43-rack-metadata)
+- [5. Feature Engineering Layer](#5-feature-engineering-layer)
+  - [5.1 Rack-Level Features](#51-rack-level-features)
+  - [5.2 Spatial Features](#52-spatial-features)
+  - [5.3 Thermal Features](#53-thermal-features)
+- [6. Prediction Layer: XGBoost / LightGBM](#6-prediction-layer-xgboost--lightgbm)
+  - [6.1 Model Input](#61-model-input)
+  - [6.2 Model Output](#62-model-output)
+- [7. Rack-Level Prediction Output](#7-rack-level-prediction-output)
+  - [7.1 Example Outputs](#71-example-outputs)
+---
 # 1. Research Objective
 
 The goal of this research is to develop a rack-level thermal prediction framework for data centers using:
@@ -40,34 +58,70 @@ Therefore, thermal prediction becomes important for:
 
 # 3. Proposed Rack-Level Framework
 
-```text
-Redfish Data Collection
-(server power / CPU temp / fan speed)
-        │
-        ├── Server-level thermal features
-        │
-PDU Monitoring
-(total load / outlet power / voltage)
-        │
-        ├── Rack-level power features
-        │
-Rack Metadata
-(U position / rack ID / server status)
-        │
-        ├── Spatial placement features
-        ↓
-Feature Engineering
-        ↓
-XGBoost / LightGBM
-        ↓
-Rack-Level Temperature Prediction
-        ↓
-Thermal Warning / Cooling Optimization
+```mermaid
+flowchart TB
+    A["Redfish Data Collection<br/>
+    Server power<br/>
+    CPU temperature<br/>
+    Fan speed<br/>
+    Inlet temperature<br/>
+    Server health status"]
+
+    B["PDU Monitoring<br/>
+    Total load<br/>
+    Outlet power<br/>
+    Voltage<br/>
+    Current<br/>
+    Power factor"]
+
+    C["Rack Metadata<br/>
+    U position<br/>
+    Rack ID<br/>
+    Server status<br/>
+    U size<br/>
+    Server placement order"]
+
+    D["Server-Level Thermal Features"]
+    E["Rack-Level Power Features"]
+    F["Spatial Placement Features"]
+
+    G["Feature Engineering<br/>
+    total_rack_power<br/>
+    average / max temperature<br/>
+    upper / middle / lower rack power<br/>
+    temperature change rate<br/>
+    weighted U position"]
+
+    H["XGBoost / LightGBM<br/>
+    Rack-Level Temperature Prediction"]
+
+    I["Rack-Level Prediction Output<br/>
+    rack_average_temperature<br/>
+    rack_maximum_temperature<br/>
+    hotspot_risk_score<br/>
+    next_5min_temperature"]
+
+    J["Thermal Warning / Cooling Optimization<br/>
+    thermal warning<br/>
+    hotspot detection<br/>
+    cooling optimization<br/>
+    workload scheduling"]
+
+    A --> D
+    B --> E
+    C --> F
+
+    D --> G
+    E --> G
+    F --> G
+
+    G --> H
+    H --> I
+    I --> J
 ```
 ---
 # 4.  Data Input Layer
 ## 4.1 Redfish Data
-```text
 Input:
 - Server current power
 - Server average power
@@ -78,10 +132,8 @@ Input:
 - Power state
 Purpose:
 描述單台 server 的發熱狀態
-```
 ---
 ## 4.2 PDU Data
-```text
 Input:
 - Rack total load
 - Outlet power
@@ -92,10 +144,10 @@ Input:
 
 Purpose:
 描述整個 rack 的總耗電與總熱源
-```
+
 ---
 ## 4.3 Rack Metadata
-```text
+
 Input:
 - Rack ID
 - Server name
@@ -106,7 +158,7 @@ Input:
 
 Purpose:
 描述 server 在 rack 中的空間位置
-```
+
 ---
 # 5. Feature Engineering Layer
 
