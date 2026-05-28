@@ -1,12 +1,4 @@
 # <div align="center">0527~0529 Study Notes - Rack-Level Thermal Prediction Framework</div>
-
----
-
-## Rack-Level Thermal Prediction Framework for Data Center Cooling Optimization
-
->**Status:** Ongoing  
->**Research Focus:** Rack-Level Temperature Prediction  
->**Target Model:** XGBoost / LightGBM  
 ---
 
 # 1. Research Objective
