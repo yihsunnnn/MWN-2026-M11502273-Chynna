@@ -535,7 +535,6 @@ flowchart TB
     D --> E
     E --> F
 ```
-
 # Paper Review: Leakage-Aware Cooling Management for Improving Server Energy Efficiency. (2015)
 ## Reference:
 M. Zapater,et al,"Leakage-Aware Cooling Management for Improving Server Energy Efficiency," IEEE Transactions on Parallel and Distributed Systems, vol. 26, no. 10, pp. 2764-2777, Oct. 1, 2015.
