@@ -1,5 +1,4 @@
-
-# PAPER REVIEW
+# PAPER REVIEW 
 # Table of Contents
 
 1. [Neural Network-Based Reconstruction of Steady-State Temperature Systems](#paper-review-neural-network-based-reconstruction-of-steady-state-temperature-systems-with-unknown-material-composition-2024)
