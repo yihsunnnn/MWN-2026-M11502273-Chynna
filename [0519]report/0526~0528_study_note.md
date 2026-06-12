@@ -60,8 +60,7 @@ Therefore, thermal prediction becomes important for:
 
 ```mermaid
 flowchart TB
-    A["Redfish Data Collection<br/>
-    Server power<br/>
+    A["Server power<br/>
     CPU temperature<br/>
     Fan speed<br/>
     Inlet temperature<br/>
