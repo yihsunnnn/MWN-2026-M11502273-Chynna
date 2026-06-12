@@ -66,8 +66,7 @@ flowchart TB
     Inlet temperature<br/>
     Server health status"]
 
-    B["PDU Monitoring<br/>
-    Total load<br/>
+    B["Total load<br/>
     Outlet power<br/>
     Voltage<br/>
     Current<br/>
