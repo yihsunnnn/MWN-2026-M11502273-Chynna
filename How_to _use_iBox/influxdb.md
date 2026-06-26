@@ -1,6 +1,24 @@
 # Understanding PDU Data in InfluxDB
 
-## Current Query Conditions
+## 1. Access InfluxDB
+
+Before using InfluxDB, make sure you have permission to access the system.
+
+InfluxDB URL:
+
+```text
+http://192.168.8.48:8086/
+```
+
+> Note: This URL can only be used when the user has proper access permission and is connected to the correct internal network environment.
+
+---
+
+## 2. Current Query Conditions
+
+The following example shows how to query PDU power data in InfluxDB.
+
+![InfluxDB PDU](influxdb_PDU_1_12.png)
 
 ### Bucket
 
@@ -25,9 +43,9 @@ This query means:
 
 > Retrieve the **active power** of both the **PDU Inlet** and **all PDU Outlets**.
 
-Therefore, InfluxDB returns:
+Therefore, InfluxDB returns multiple sensor values, including:
 
-```
+```text
 Inlet 1
 Outlet 1
 Outlet 2
@@ -36,19 +54,19 @@ Outlet 3
 Outlet 12
 ```
 
-Each of these is an independent sensor.
+Each of these sensors is an independent measurement point.
 
 ---
 
-# Why are there so many values at the same timestamp?
+## 3. Why Are There Many Values at the Same Timestamp?
 
-For example:
+For example, at the same timestamp:
 
-```
+```text
 2026-06-26 18:05:30
 ```
 
-InfluxDB is actually showing:
+InfluxDB is actually showing the power consumption of different PDU sensors:
 
 | Time | Sensor | Active Power (W) |
 |------|---------|-----------------:|
@@ -66,123 +84,89 @@ InfluxDB is actually showing:
 |18:05:30|Outlet 12|2.30|
 |18:05:30|Outlet 3|0|
 
----
+It is **not** that one device has many different power values.
 
-## Important Concept
+Instead:
 
-It is **NOT** that one device has many different power values.
+> At the same timestamp, each PDU Outlet reports its own power consumption.
 
-Instead,
+In other words, every Outlet is an independent power sensor.
 
-> At the same timestamp, **each Outlet reports its own power consumption**.
-
-Every Outlet is an independent measurement point.
 
 ---
 
-# Which value represents the RU power?
+## 4. Which Value Represents the RU Power?
 
-The key question is:
+If the goal is to read the power consumption of the RU (Radio Unit), the most important question is:
 
-> **Which PDU Outlet is connected to the RU (Radio Unit)?**
+> Which PDU Outlet is connected to the RU?
 
-For example,
+For example:
 
-```
+```text
 RU
 │
 └── PDU Outlet 10
 ```
 
-Then,
+Then:
 
-```
+```text
 Outlet 10 = RU Power Consumption
 ```
 
-If instead,
+If instead the RU is connected to Outlet 5:
 
-```
+```text
 RU
 │
 └── PDU Outlet 5
 ```
 
-Then,
+Then:
 
-```
+```text
 Outlet 5 = 114.3 W
 ```
 
-is the power consumption of the RU.
+This value represents the power consumption of the RU at that timestamp.
 
-Therefore,
+Therefore:
 
-> The RU power is **not** the Inlet power.
->
-> It is the active power of the Outlet where the RU is connected.
-
----
-
-# Why does the graph contain many colors?
-
-InfluxDB treats each **sensor_name** as an independent Time Series.
-
-For example:
-
-```
-Blue    → Inlet 1
-
-Red     → Outlet 10
-
-Purple  → Outlet 8
-
-Yellow  → Outlet 5
-
-...
-```
-
-Therefore, one graph may contain many colored lines.
+> The RU power is not the Inlet power.  
+> The RU power is the `active_power` of the Outlet where the RU is connected.
 
 ---
 
-# Recommendation
+## 5. Recommended Way to View RU Power
 
-Instead of displaying all Outlets simultaneously,
+Instead of displaying all Outlets at the same time, add one more filter:
 
-add another filter:
-
-```
+```text
 sensor_name
 ```
 
-Then select only one Outlet, for example:
+Then select only the Outlet connected to the RU, for example:
 
-```
+```text
 Outlet 10
 ```
 
-The graph will display only one Time Series.
+After filtering by `sensor_name`, the graph will show only one time series.
 
-This makes it much easier to observe the power variation of the connected device (e.g., the RU).
+This makes it easier to observe the power variation of the RU.
+
+![InfluxDB PDU Inlet](influxdb_PDU_inlet.png)
 
 ---
 
-# Summary
+# PDU Inlet and Outlet Power Explanation
 
-- Bucket: `cortexdc_pdu`
-- Measurement: `pdu_inlet` and `pdu_outlet`
-- Field: `active_power`
-- Each Outlet is an independent power sensor.
-- The same timestamp contains multiple values because multiple sensors report simultaneously.
-- The RU power equals the active power of the Outlet connected to the RU.
-- Filtering by `sensor_name` allows you to monitor a single Outlet clearly.<img width="1920" height="1200" alt="螢幕擷取畫面 2026-06-26 180733" src="https://github.com/user-attachments/assets/76324a91-4e9b-45e7-ae5f-abd50aaa7c1d" />
+## 6. Why Is the Inlet Power Higher Than Each Outlet?
 
-# PDU Inlet 與 Outlet 功率說明
+When querying `active_power` from PDU data, the Inlet value is usually much higher than a single Outlet value.
 
-## 為什麼 Inlet 的功率比 Outlet 高？
-
-在 CortexDC / InfluxDB 中查詢 PDU 的 `active_power` 時，常會看到：
+Example:
 
 | Sensor | Active Power (W) |
 |---------|-----------------:|
@@ -200,17 +184,15 @@ This makes it much easier to observe the power variation of the connected device
 | Outlet 12 | 2.30 |
 | Outlet 3 | 0 |
 
-第一次看到會疑惑：
-
-> 為什麼 Inlet 的功率遠大於每一個 Outlet？
+This is because the Inlet represents the total input power of the PDU.
 
 ---
 
-# PDU 架構
+## 7. PDU Structure
 
-PDU (Power Distribution Unit) 可以想像成一個智慧型延長線。
+A PDU (Power Distribution Unit) can be understood as a smart power strip.
 
-```
+```text
           Utility Power
                │
                ▼
@@ -225,34 +207,38 @@ PDU (Power Distribution Unit) 可以想像成一個智慧型延長線。
    Outlet1 ... Outlet12
 ```
 
-其中：
+Where:
 
-- **Inlet**：PDU 從市電或 UPS 接收到的總輸入功率。
-- **Outlet**：PDU 分配給各設備（Server、RU、Switch...）的輸出功率。
-
----
-
-# Inlet 與 Outlet 的關係
-
-理論上：
-
-\[
-P_{\text{Inlet}}
-\approx
-\sum_{i=1}^{N} P_{\text{Outlet}_i}
-\]
-
-也就是：
-
-> **Inlet 功率 ≈ 所有 Outlet 功率總和**
+- **Inlet**: The total input power received by the PDU from utility power or UPS.
+- **Outlet**: The output power distributed to each device, such as Server, RU, Switch, or other equipment.
 
 ---
 
-# 以目前資料為例
+## 8. Relationship Between Inlet and Outlet
 
-所有 Outlet 加總：
+In theory:
 
+```text
+P_Inlet ≈ Sum of all P_Outlet
 ```
+
+Or in mathematical form:
+
+```text
+P_Inlet ≈ P_Outlet1 + P_Outlet2 + ... + P_OutletN
+```
+
+That means:
+
+> Inlet power is approximately equal to the sum of all Outlet power.
+
+---
+
+## 9. Example Calculation
+
+The sum of all Outlet active power is:
+
+```text
 239.5
 +191.4
 +114.3
@@ -264,129 +250,43 @@ P_{\text{Inlet}}
 +30.5
 +2.46
 +2.30
-≈941.7 W
+≈ 941.7 W
 ```
 
-而：
+The Inlet active power is:
 
+```text
+Inlet 1 = 944.9 W
 ```
-Inlet = 944.9 W
+
+The difference is:
+
+```text
+944.9 W - 941.7 W ≈ 3.2 W
 ```
 
-兩者只相差約 **3 W**。
+This small difference may come from:
 
-此差異通常來自：
+- The power consumption of the PDU itself
+- Measurement resolution
+- Sensor update time differences
+- Rounding errors
 
-- PDU 本身耗電
-- 量測解析度
-- 感測器更新時間差
-- 四捨五入誤差
-
-因此屬於正常現象。
+Therefore, this result is reasonable.
 
 ---
 
-# 為什麼同一個時間有很多數值？
+## 10. Summary
 
-InfluxDB 會同時顯示：
-
-```
-18:05:30
-
-Inlet 1
-Outlet 1
-Outlet 2
-Outlet 3
-...
-Outlet 12
-```
-
-因此在同一時間會看到許多不同的功率值。
-
-例如：
-
-| Time | Sensor | Active Power |
-|------|---------|-------------:|
-|18:05:30|Inlet 1|944.9 W|
-|18:05:30|Outlet 10|239.5 W|
-|18:05:30|Outlet 8|191.4 W|
-|18:05:30|Outlet 5|114.3 W|
-|...|...|...|
-
-並不是一個設備有很多數值，
-
-而是：
-
-> **不同 Sensor 在同一時間各自回報自己的功率。**
-
----
-
-# 為什麼 Graph 有很多顏色？
-
-InfluxDB 會把每一個 `sensor_name` 當作一條 Time Series。
-
-例如：
-
-```
-藍色   → Inlet 1
-
-紅色   → Outlet 10
-
-紫色   → Outlet 8
-
-黃色   → Outlet 5
-
-...
-```
-
-因此圖上會同時出現許多不同顏色。
-
----
-
-# RU 功率要看哪裡？
-
-如果研究目的是：
-
-> **量測 RU (Radio Unit) 的功率**
-
-則**不是看 Inlet**。
-
-而是先確認：
-
-```
-RU
-│
-└── 接到哪一個 PDU Outlet？
-```
-
-例如：
-
-```
-RU
-│
-└── Outlet 10
-```
-
-則：
-
-```
-Outlet 10 = RU Power Consumption
-```
-
-例如：
-
-```
-Outlet 10 = 239.5 W
-```
-
-就是 RU 的即時功率。
-
----
-
-# 重點整理
-
-- Inlet = 整台 PDU 的總輸入功率。
-- Outlet = 每個插座對應設備的功率。
-- Inlet 功率約等於所有 Outlet 功率總和。
-- Graph 出現很多顏色是因為每個 Sensor 都是一條獨立的 Time Series。
-- 若要量測 RU 功耗，應確認 RU 所連接的 Outlet，再查看該 Outlet 的 `active_power`。
+- InfluxDB URL: `http://192.168.8.48:8086/`
+- Access permission is required before using InfluxDB.
+- Bucket: `cortexdc_pdu`
+- Measurement: `pdu_inlet` and `pdu_outlet`
+- Field: `active_power`
+- Each Outlet is an independent power sensor.
+- The same timestamp contains multiple values because multiple sensors report simultaneously.
+- The Inlet represents the total input power of the PDU.
+- The Outlet represents the power of each connected device.
+- The Inlet power is approximately equal to the sum of all Outlet power.
+- The RU power equals the `active_power` of the Outlet connected to the RU.
+- Filtering by `sensor_name` allows users to monitor a single Outlet more clearly.
