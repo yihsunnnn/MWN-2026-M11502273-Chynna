@@ -1,0 +1,283 @@
+from pathlib import Path
+import os
+
+import pandas as pd
+from influxdb_client import InfluxDBClient
+
+
+# =========================
+# InfluxDB 連線設定
+# 建議 Token 改用環境變數
+# =========================
+INFLUX_URL = "http://192.168.8.48:8086"
+INFLUX_TOKEN = "NsoS0TaoZaPwf7wn4ZMiXqPc4jYL2IDoLrCU-6L0Tx4NeuqyXHhrA_c6wuuu2NZQHE8ShACoWLe4QVhDXVamyw=="
+INFLUX_ORG = "bmwlab"
+INFLUX_BUCKET = "cortexdc_server"
+
+
+# =========================
+# 查詢時間
+# 台灣時間 UTC+8
+# =========================
+START_TIME = "2026-07-17 01:00:00"
+STOP_TIME = "2026-07-18 01:00:00"
+
+
+# =========================
+# Flux 查詢
+# 每 1 分鐘取平均
+# =========================
+query = f'''
+from(bucket: "{INFLUX_BUCKET}")
+  |> range(
+      start: 2026-07-17T01:00:00+08:00,
+      stop: 2026-07-18T01:00:00+08:00
+  )
+  |> filter(fn: (r) =>
+      r["_measurement"] == "server_cpu" or
+      r["_measurement"] == "server_fan" or
+      r["_measurement"] == "server_temperature" or
+      r["_measurement"] == "server_psu" or
+      r["_measurement"] == "server_power" or
+      r["_measurement"] == "server_voltage"
+  )
+  |> aggregateWindow(
+      every: 1m,
+      fn: mean,
+      createEmpty: true
+  )
+  |> sort(columns: ["_time"])
+'''
+
+
+def build_complete_timeline(data: pd.DataFrame) -> pd.DataFrame:
+    """
+    依照每一個資料序列建立完整的 1 分鐘時間軸。
+    缺少的時間點保留為 NaN，不進行補值。
+    """
+
+    if "_time" not in data.columns or "_value" not in data.columns:
+        raise ValueError("資料中缺少 _time 或 _value 欄位。")
+
+    # 用來識別不同資料序列的欄位
+    possible_group_columns = [
+        "_measurement",
+        "_field",
+        "server_name",
+        "sensor_name",
+        "psu_name",
+        "fan_name",
+        "cpu_name",
+        "ip_address",
+        "asset_id",
+        "brand",
+        "model",
+        "health",
+    ]
+
+    group_columns = [
+        column
+        for column in possible_group_columns
+        if column in data.columns
+    ]
+
+    if not group_columns:
+        raise ValueError("找不到可用來區分不同感測器或欄位的分組欄位。")
+
+    start_time = pd.Timestamp(
+        START_TIME,
+        tz="Asia/Taipei",
+    )
+
+    stop_time = pd.Timestamp(
+        STOP_TIME,
+        tz="Asia/Taipei",
+    )
+
+    # stop 不包含在查詢範圍內，因此使用 inclusive="left"
+    full_time_index = pd.date_range(
+        start=start_time,
+        end=stop_time,
+        freq="1min",
+        inclusive="left",
+    )
+
+    completed_frames = []
+
+    for group_key, group in data.groupby(
+        group_columns,
+        dropna=False,
+        sort=False,
+    ):
+        group = group.copy()
+
+        # 同一序列、同一分鐘若有多筆資料，再取平均
+        group = (
+            group.groupby("_time", as_index=False, dropna=False)["_value"]
+            .mean()
+        )
+
+        # 建立完整 1 分鐘時間軸
+        group = (
+            group.set_index("_time")
+            .reindex(full_time_index)
+            .rename_axis("_time")
+            .reset_index()
+        )
+
+        # 還原分組欄位
+        if not isinstance(group_key, tuple):
+            group_key = (group_key,)
+
+        for column, value in zip(group_columns, group_key):
+            group[column] = value
+
+        # 標記該筆是否為缺值
+        group["is_missing"] = group["_value"].isna()
+
+        completed_frames.append(group)
+
+    complete_data = pd.concat(
+        completed_frames,
+        ignore_index=True,
+    )
+
+    sort_columns = [
+        column
+        for column in [
+            "_time",
+            "_measurement",
+            "server_name",
+            "sensor_name",
+            "psu_name",
+            "fan_name",
+            "_field",
+        ]
+        if column in complete_data.columns
+    ]
+
+    if sort_columns:
+        complete_data = complete_data.sort_values(
+            sort_columns,
+            ignore_index=True,
+        )
+
+    return complete_data
+
+
+def main() -> None:
+    try:
+        if not INFLUX_TOKEN:
+            raise ValueError(
+                "找不到 INFLUX_TOKEN。請先設定環境變數。"
+            )
+
+        with InfluxDBClient(
+            url=INFLUX_URL,
+            token=INFLUX_TOKEN,
+            org=INFLUX_ORG,
+            timeout=600_000,
+        ) as client:
+
+            print("正在查詢所有 Server 資料……")
+
+            result = client.query_api().query_data_frame(
+                query=query,
+                org=INFLUX_ORG,
+            )
+
+        if isinstance(result, list):
+            frames = [
+                frame
+                for frame in result
+                if frame is not None and not frame.empty
+            ]
+
+            if not frames:
+                print("查詢成功，但指定時間內沒有資料。")
+                return
+
+            data = pd.concat(
+                frames,
+                ignore_index=True,
+            )
+
+        else:
+            data = result
+
+        if data is None or data.empty:
+            print("查詢成功，但指定時間內沒有資料。")
+            return
+
+        # 移除 InfluxDB 輔助欄位
+        remove_columns = [
+            "result",
+            "table",
+            "_start",
+            "_stop",
+        ]
+
+        data = data.drop(
+            columns=[
+                column
+                for column in remove_columns
+                if column in data.columns
+            ]
+        )
+
+        # UTC 轉台灣時間
+        data["_time"] = pd.to_datetime(
+            data["_time"],
+            utc=True,
+        ).dt.tz_convert("Asia/Taipei")
+
+        # 建立完整時間軸
+        # 缺少的時間點會保留為 NaN
+        complete_data = build_complete_timeline(data)
+
+        output_path = Path(
+            "all_server_data_with_nan_"
+            "2026-07-17_0100_to_2026-07-18_0100.csv"
+        )
+
+        complete_data.to_csv(
+            output_path,
+            index=False,
+            encoding="utf-8-sig",
+            na_rep="NaN",
+        )
+
+        print("下載完成")
+        print(f"CSV 路徑：{output_path.resolve()}")
+        print(f"資料筆數：{len(complete_data)}")
+
+        missing_count = complete_data["_value"].isna().sum()
+        total_count = len(complete_data)
+        missing_rate = (
+            missing_count / total_count * 100
+            if total_count > 0
+            else 0
+        )
+
+        print(f"缺值筆數：{missing_count}")
+        print(f"缺值比例：{missing_rate:.2f}%")
+
+        if "_measurement" in complete_data.columns:
+            print("\n各 measurement 缺值數量：")
+            print(
+                complete_data.groupby("_measurement")["_value"]
+                .apply(lambda series: series.isna().sum())
+                .sort_values(ascending=False)
+            )
+
+        print("\n前 10 筆資料：")
+        print(complete_data.head(10))
+
+    except Exception as error:
+        print("下載失敗")
+        print("錯誤類型：", type(error).__name__)
+        print("錯誤內容：", error)
+
+
+if __name__ == "__main__":
+    main()
