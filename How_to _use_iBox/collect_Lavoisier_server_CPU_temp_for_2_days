@@ -1,0 +1,306 @@
+from pathlib import Path
+import os
+
+import pandas as pd
+from influxdb_client import InfluxDBClient
+
+
+# =========================
+# InfluxDB 連線設定
+# 建議將 Token 設為環境變數
+# =========================
+INFLUX_URL = "http://192.168.8.48:8086"
+INFLUX_TOKEN = "INFLUX_TOKEN" #TOKEN要經過許可 
+INFLUX_ORG = "bmwlab"
+INFLUX_BUCKET = "cortexdc_server"
+
+
+# =========================
+# 查詢設定
+# =========================
+SERVER_NAME = "Lavoisier"
+
+START_TIME = "2026-07-29 12:00:00"
+STOP_TIME = "2026-07-31 12:00:00"
+
+FREQUENCY = "5min"
+
+
+# =========================
+# Flux 查詢
+# Lavoisier CPU Temperature
+# 每 5 分鐘平均
+# =========================
+query = f'''
+from(bucket: "{INFLUX_BUCKET}")
+  |> range(
+      start: 2026-07-29T12:00:00+08:00,
+      stop: 2026-07-31T12:00:00+08:00
+  )
+  |> filter(fn: (r) =>
+      r["_measurement"] == "server_temperature"
+  )
+  |> filter(fn: (r) =>
+      r["_field"] == "temperature_c"
+  )
+  |> filter(fn: (r) =>
+      r["server_name"] == "{SERVER_NAME}"
+  )
+  |> filter(fn: (r) =>
+      r["sensor_name"] =~ /CPU Temp|CPU1 Temp|CPU2 Temp|CPU 1|CPU 2|PkgTmp/
+  )
+  |> filter(fn: (r) =>
+      r["sensor_name"] !~ /VRM|DIMM|PCH|Peripheral|System|Board|Inlet|Ambient/
+  )
+  |> aggregateWindow(
+      every: 5m,
+      fn: mean,
+      createEmpty: true
+  )
+  |> sort(columns: ["_time"])
+'''
+
+
+def build_complete_timeline(data: pd.DataFrame) -> pd.DataFrame:
+    """
+    依照每一個 CPU 溫度感測器建立完整的 5 分鐘時間軸。
+    缺少的時間點保留為 NaN，不進行補值。
+    """
+
+    if "_time" not in data.columns or "_value" not in data.columns:
+        raise ValueError("資料中缺少 _time 或 _value 欄位。")
+
+    possible_group_columns = [
+        "_measurement",
+        "_field",
+        "server_name",
+        "sensor_name",
+        "ip_address",
+        "asset_id",
+        "brand",
+        "model",
+    ]
+
+    group_columns = [
+        column
+        for column in possible_group_columns
+        if column in data.columns
+    ]
+
+    if not group_columns:
+        raise ValueError("找不到可用來區分 CPU 感測器的欄位。")
+
+    start_time = pd.Timestamp(
+        START_TIME,
+        tz="Asia/Taipei",
+    )
+
+    stop_time = pd.Timestamp(
+        STOP_TIME,
+        tz="Asia/Taipei",
+    )
+
+    # 兩天，每 5 分鐘一筆，理論上每個感測器共有 576 個時間點
+    full_time_index = pd.date_range(
+        start=start_time,
+        end=stop_time,
+        freq=FREQUENCY,
+        inclusive="left",
+    )
+
+    completed_frames = []
+
+    for group_key, group in data.groupby(
+        group_columns,
+        dropna=False,
+        sort=False,
+    ):
+        group = group.copy()
+
+        # 同一感測器、同一個 5 分鐘時間點若有多筆，再取平均
+        group = (
+            group.groupby(
+                "_time",
+                as_index=False,
+                dropna=False,
+            )["_value"]
+            .mean()
+        )
+
+        group = (
+            group.set_index("_time")
+            .reindex(full_time_index)
+            .rename_axis("_time")
+            .reset_index()
+        )
+
+        if not isinstance(group_key, tuple):
+            group_key = (group_key,)
+
+        for column, value in zip(
+            group_columns,
+            group_key,
+        ):
+            group[column] = value
+
+        group["is_missing"] = group["_value"].isna()
+
+        completed_frames.append(group)
+
+    if not completed_frames:
+        raise ValueError("沒有可建立時間軸的資料。")
+
+    complete_data = pd.concat(
+        completed_frames,
+        ignore_index=True,
+    )
+
+    sort_columns = [
+        column
+        for column in [
+            "_time",
+            "server_name",
+            "sensor_name",
+            "_field",
+        ]
+        if column in complete_data.columns
+    ]
+
+    complete_data = complete_data.sort_values(
+        sort_columns,
+        ignore_index=True,
+    )
+
+    return complete_data
+
+
+def main() -> None:
+    try:
+        if not INFLUX_TOKEN:
+            raise ValueError(
+                "找不到 INFLUX_TOKEN。請先設定環境變數。"
+            )
+
+        with InfluxDBClient(
+            url=INFLUX_URL,
+            token=INFLUX_TOKEN,
+            org=INFLUX_ORG,
+            timeout=600_000,
+        ) as client:
+
+            print("正在查詢 Lavoisier CPU 溫度資料……")
+
+            result = client.query_api().query_data_frame(
+                query=query,
+                org=INFLUX_ORG,
+            )
+
+        if isinstance(result, list):
+            frames = [
+                frame
+                for frame in result
+                if frame is not None and not frame.empty
+            ]
+
+            if not frames:
+                print("查詢成功，但指定時間內沒有資料。")
+                return
+
+            data = pd.concat(
+                frames,
+                ignore_index=True,
+            )
+
+        else:
+            data = result
+
+        if data is None or data.empty:
+            print("查詢成功，但指定時間內沒有資料。")
+            return
+
+        # 移除 InfluxDB 輔助欄位
+        remove_columns = [
+            "result",
+            "table",
+            "_start",
+            "_stop",
+        ]
+
+        data = data.drop(
+            columns=[
+                column
+                for column in remove_columns
+                if column in data.columns
+            ]
+        )
+
+        # UTC 轉成台灣時間
+        data["_time"] = pd.to_datetime(
+            data["_time"],
+            utc=True,
+        ).dt.tz_convert("Asia/Taipei")
+
+        complete_data = build_complete_timeline(data)
+
+        output_path = Path(
+            "Lavoisier_cpu_temp_with_nan_"
+            "2026-07-29_1200_to_2026-07-31_1200_5min.csv"
+        )
+
+        complete_data.to_csv(
+            output_path,
+            index=False,
+            encoding="utf-8-sig",
+            na_rep="NaN",
+        )
+
+        print("\n下載完成")
+        print(f"CSV 路徑：{output_path.resolve()}")
+        print(f"資料總筆數：{len(complete_data)}")
+
+        missing_count = complete_data["_value"].isna().sum()
+        total_count = len(complete_data)
+
+        missing_rate = (
+            missing_count / total_count * 100
+            if total_count > 0
+            else 0
+        )
+
+        print(f"缺值筆數：{missing_count}")
+        print(f"缺值比例：{missing_rate:.2f}%")
+
+        if "sensor_name" in complete_data.columns:
+            print("\n各 CPU 感測器資料統計：")
+
+            summary = (
+                complete_data.groupby("sensor_name")["_value"]
+                .agg(
+                    total_count="size",
+                    valid_count="count",
+                    missing_count=lambda series: series.isna().sum(),
+                    mean_temperature="mean",
+                    min_temperature="min",
+                    max_temperature="max",
+                )
+            )
+
+            summary["missing_rate_percent"] = (
+                summary["missing_count"]
+                / summary["total_count"]
+                * 100
+            )
+
+            print(summary)
+
+        print("\n前 10 筆資料：")
+        print(complete_data.head(10))
+
+    except Exception as error:
+        print("\n下載失敗")
+        print("錯誤類型：", type(error).__name__)
+        print("錯誤內容：", error)
+
+
+if __name__ == "__main__":
+    main()
