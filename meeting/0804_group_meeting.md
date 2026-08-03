@@ -1,5 +1,79 @@
 # Experiment 01–10 Relationship Summary
 
+## Model Input and Experimental Settings
+
+### Experiment 01
+
+- Experiment 01 used 1-minute sampled data.
+- The model input features were:
+  - `CPU temperature`
+  - `Inlet temperature`
+  - `Fan RPM`
+  - `Server power`
+
+---
+
+### Experiment 02 to Experiment 06
+
+- From Experiment 02 to Experiment 06, the data was changed to fixed 5-minute sampling.
+- The model input features were kept the same as Experiment 01:
+  - `CPU temperature`
+  - `Inlet temperature`
+  - `Fan RPM`
+  - `Server power`
+
+- If multiple sensors of the same type existed at the same timestamp, the average value was used as the representative input value.
+
+---
+
+### Experiment 07
+
+- Experiment 07 compared two CPU temperature aggregation methods:
+  - `CPU temperature mean`
+  - `CPU temperature max`
+
+- The purpose was to compare whether using the average CPU temperature or the maximum CPU temperature was more suitable for CPU temperature prediction.
+
+- Other input features were kept the same:
+  - `Inlet temperature`
+  - `Fan RPM`
+  - `Server power`
+
+- The data was fixed 5-minute sampled data.
+
+---
+
+### Experiment 08 and Experiment 09
+
+- Experiment 08 and Experiment 09 focused on a single server, `Lavoisier`.
+- Lavoisier was selected because it had larger CPU temperature variation.
+- Both experiments used fixed 5-minute sampled data.
+- The selected input features were:
+  - `CPU temperature`
+  - `Fan RPM`
+  - `Server power`
+
+- `Inlet temperature` was not included in Experiment 08 and Experiment 09 because the available Lavoisier dataset did not contain usable inlet temperature data.
+
+---
+
+### Data Split
+
+- All experiments used the same data split ratio:
+  - 70% training set
+  - 15% validation set
+  - 15% test set
+
+- The split was performed according to time order to avoid data leakage.
+
+---
+
+### Evaluation Metrics
+
+- All experiments were evaluated using the same metrics:
+  - `MAE`
+  - `RMSE`
+  - `Max Error`
 ## Overall Experiment Logic
 
 The experimental flow of this study was designed step by step, starting from data preprocessing and model construction, then moving toward baseline comparison, feature analysis, lag analysis, server selection, and finally increasing the data log length. Each experiment was designed based on the result of the previous experiment, so the experiments are not independent but logically connected.
