@@ -110,7 +110,7 @@ Exp02 converted the data into fixed 5-minute sampling, so each data point had a 
 
 | Experiment | Sampling Method | Target Meaning | Samples | MAE | RMSE | Max Error |
 |---|---|---|---:|---:|---:|---:|
-| Exp01 | Valid observations | 10th future valid observation | 2585 | 1.008°C | 1.369°C | 4.630°C |
+| Exp01 | 1-minute sample | 10th future valid observation | 2585 | 1.008°C | 1.369°C | 4.630°C |
 | Exp02 | 5-minute resample | Actual 10 minutes later | 2252 | 0.624°C | 0.903°C | 3.977°C |
 
 ### Conclusion
