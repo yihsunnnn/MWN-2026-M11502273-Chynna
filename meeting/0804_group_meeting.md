@@ -3,7 +3,7 @@
 ## Model Input and Experimental Settings
 
 ### Experiment 01
-
+- 2026-07-18 1:00~2026-07-19 1:00 24hr data
 - Experiment 01 used 1-minute sampled data.
 - The model input features were:
   - `CPU temperature`
