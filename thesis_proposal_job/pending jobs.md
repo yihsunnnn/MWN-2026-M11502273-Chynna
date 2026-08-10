@@ -16,11 +16,11 @@
    - [ ] 同步收集 CPU Usage、CPU Temperature、Fan RPM 與 Server Power。
    - [ ] 對齊不同資料來源的 Timestamp。
 
-- [ ] **收集更多高變化資料**
+- [ ] **收集更多高變化資料**(deadline:2026-09-04)
    - [ ] 利用 5G End-to-End Workload 產生不同的 CPU Load。
    - [ ] 收集 CPU Temperature 變化較明顯的資料。
    
-- [ ] **CPU Temperature Prediction 實驗**
+- [ ] **CPU Temperature Prediction 實驗**(deadline:2026-09-04)
    - [ ] 比較 Persistence 與 XGBoost 模型。
    - [ ] 預測未來 1、5、15 分鐘的 CPU Temperature。
    - [ ] 比較加入 CPU Usage 前後的模型預測結果。
