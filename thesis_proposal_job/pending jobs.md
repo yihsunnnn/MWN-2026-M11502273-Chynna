@@ -4,12 +4,14 @@
    - [ ] 完成並修改 Thesis Proposal。
    - [ ] 明確定義研究問題、研究動機、Research Gap 與 Contribution。(deadline:)
    - [ ] 整理研究方法、系統架構與初步實驗結果。
-   - [ ] 架構圖完成 (deadline:2026-08-1)
+   - [x] 架構圖完成 (deadline:2026-08-11)
 
-- [ ]  **修改 O-RAN 系統架構** (deadline:2026-08-14)
-   - [ ] 釐清 CortexDC、InfluxDB、rApps、Non-RT RIC 與 Near-RT RIC 之間的連接方式。(deadline:2026-08-11)
-   - [ ] 加入 R1、A1 Interface，並將 gNB 拆分為 O-CU、O-DU 與 O-RU。(deadline:2026-08-12)
-   - [ ] 了解 AIML Framework 如何銜接架構(deadline:2026-08-13)
+- [x]  **修改 O-RAN 系統架構** (deadline:2026-08-14)
+   - [x] 釐清 CortexDC、InfluxDB、rApps、Non-RT RIC 與 Near-RT RIC 之間的連接方式。(deadline:2026-08-11)
+   - [x] 加入 R1、A1 Interface，並將 gNB 拆分為 O-CU、O-DU 與 O-RU。(deadline:2026-08-12)
+   - [x] 了解 AIML Framework 如何銜接架構(deadline:2026-08-13)
+   <img width="1492" height="842" alt="連接架構圖" src="https://github.com/user-attachments/assets/739f6b9a-6e73-4fbb-af56-c0827db2a7ea" />
+
 
 - [ ] **收集 CPU Usage 資料**(deadline:2026-08-20)
    - [ ] 在  End-to-End 實驗中加入 CPU Usage 資料收集。
