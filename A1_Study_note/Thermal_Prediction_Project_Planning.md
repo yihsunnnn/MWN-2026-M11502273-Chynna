@@ -36,7 +36,7 @@
 
 The following diagram shows the current preliminary integration architecture of the CortexDC monitoring platform and AIMLFW. It includes the SMO, SMO InfluxDB, AIMLFW/Kubeflow, O2 services, CortexDC, monitored O-Cloud machines, iPerf traffic, temperature sensors, cooling systems, and PDU data sources. The diagram describes the current system components and connections. The temperature and power prediction model proposed in this project will be built on top of these monitoring and AI/ML training workflows.
 
-![Current preliminary CortexDC and AIMLFW architecture](../docs/images/aimlfw-architecture.png)
+![Current preliminary CortexDC and AIMLFW architecture](aimlfw-architecture.png)
 
 ### Architecture Component Description
 

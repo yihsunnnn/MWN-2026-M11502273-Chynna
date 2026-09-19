@@ -36,7 +36,7 @@
 
 下圖為目前 CortexDC 監控平台與 AIMLFW 的初步整合架構。圖中包含 SMO、SMO 內的 InfluxDB、AIMLFW/Kubeflow、O2 services、CortexDC、受監控的 O-Cloud、iPerf 流量、溫度感測器、冷卻系統與 PDU 資料來源。這張圖描述的是目前系統的實際元件與連線方式；後續的溫度與功耗預測模型，會建立在這些監控資料與 AI/ML 訓練流程之上。
 
-![目前 CortexDC 與 AIMLFW 初步架構](../docs/images/aimlfw-architecture.png)
+![目前 CortexDC 與 AIMLFW 初步架構](aimlfw-architecture.png)
 
 ### 架構圖元件說明
 
