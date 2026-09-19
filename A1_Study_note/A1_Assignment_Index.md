@@ -23,6 +23,3 @@
 
 [View or Download the Presentation Recording (.mov)](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/main/A1_Study_note/MWC%20V-20260919_201027-Meeting%20Recording.mov)
 
----
-
-[View Assignment Folder on GitHub](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/tree/main/A1_Study_note)
