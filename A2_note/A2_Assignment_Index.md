@@ -3,9 +3,9 @@
 **Name:** Chynna  
 **Student ID:** M11502273
 
-## 1. A2 測試結果
+## 1. A2 result
 
-[A2 測試結果 — 3GPP Cloud Gaming Traffic Model Implementation in ns-3](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/main/A2_note/traffic_model.md)
+[A2 — 3GPP Cloud Gaming Traffic Model Implementation in ns-3](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/main/A2_note/traffic_model.md)
 
 ## 2. Presentation Slides
 
