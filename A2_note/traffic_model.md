@@ -1,5 +1,38 @@
 # 3GPP Cloud Gaming Traffic Model Implementation in ns-3
 
+## 目錄
+
+- [1. Assignment Objective](#1-assignment-objective)
+- [2. Environment](#2-environment)
+- [3. Selected 3GPP Traffic Model](#3-selected-3gpp-traffic-model)
+- [4. Cloud Gaming Category C Parameters](#4-cloud-gaming-category-c-parameters)
+- [5. Traffic Model Implementation](#5-traffic-model-implementation)
+  - [5.1 Burst Period](#51-burst-period)
+  - [5.2 Burst Data Size](#52-burst-data-size)
+  - [5.3 Packets per Burst](#53-packets-per-burst)
+- [6. Packet Transmission inside a Burst](#6-packet-transmission-inside-a-burst)
+- [7. ns-3 Simulation Result](#7-ns-3-simulation-result)
+- [8. Burst Trace Result](#8-burst-trace-result)
+- [9. Packet Size Distribution](#9-packet-size-distribution)
+- [10. Packet Inter-arrival Time](#10-packet-inter-arrival-time)
+  - [Within-Burst IAT](#within-burst-iat)
+  - [Inter-Burst IAT](#inter-burst-iat)
+  - [Packet Inter-arrival Time PDF](#packet-inter-arrival-time-pdf)
+  - [Packet Inter-arrival Time CDF](#packet-inter-arrival-time-cdf)
+- [11. Wireshark Verification](#11-wireshark-verification)
+  - [Wireshark Packet Verification](#wireshark-packet-verification)
+- [12. Wireshark Burst Verification](#12-wireshark-burst-verification)
+- [13. Generated Files](#13-generated-files)
+  - [3gpp_data_size_pdf.png](#3gpp_data_size_pdfpng)
+  - [3gpp_data_size_cdf.png](#3gpp_data_size_cdfpng)
+  - [3gpp_burst_length_pdf.png](#3gpp_burst_length_pdfpng)
+  - [3gpp_burst_length_cdf.png](#3gpp_burst_length_cdfpng)
+  - [3gpp_jitter_pdf.png](#3gpp_jitter_pdfpng)
+  - [3gpp_jitter_cdf.png](#3gpp_jitter_cdfpng)
+- [14. Conclusion](#14-conclusion)
+
+---
+
 ## 1. Assignment Objective
 
 The purpose of this assignment is to set up the ns-3 simulator and implement a traffic model based on **3GPP TR 26.926**.
