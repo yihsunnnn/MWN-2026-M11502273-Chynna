@@ -1,6 +1,6 @@
 # 3GPP Cloud Gaming Traffic Model Implementation in ns-3
 
-## 目錄
+## Index
 
 - [1. Assignment Objective](#1-assignment-objective)
 - [2. Environment](#2-environment)
