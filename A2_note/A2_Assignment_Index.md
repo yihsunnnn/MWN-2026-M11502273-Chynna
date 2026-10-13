@@ -13,3 +13,6 @@
 
 ## 3. Video 
 [MWN A2 Recording](https://youtu.be/WlgXAQ4vT4s)
+
+## 4. Rehearsal video
+[A2 rehearsal video](https://youtu.be/JVhaAXlgHpI)
