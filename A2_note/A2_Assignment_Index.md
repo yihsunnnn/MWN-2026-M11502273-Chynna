@@ -5,7 +5,7 @@
 
 ## 1. A2 result
 
-[A2 — 3GPP Cloud Gaming Traffic Model Implementation in ns-3](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/main/A2_note/traffic_model.md)
+[A2 — 3GPP Cloud Gaming Traffic Model Implementation in ns-3](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/main/A2_note/A2_ns3_result.md)
 
 ## 2. Presentation Slides
 
