@@ -11,4 +11,4 @@
 [A3 rehearsal video]
 
 ## 3.Proposal revise
-[Proposal](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/c2d6b84802d45ad792afba5b2805722850b1ffe9/A3/A3_proposal_revise.md)
+[Proposal](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/b77076d14293549c481b8b1674a68b3217d202d3/A3/A3_proposal_revise.md)
