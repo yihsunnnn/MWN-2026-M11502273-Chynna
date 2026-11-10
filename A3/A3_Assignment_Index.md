@@ -5,7 +5,7 @@
 
 ## 1. Presentation Slides
 
-[View the A3 Presentation Slides (Slides)](https://mailntustedutw-my.sharepoint.com/:p:/g/personal/m11502273_ms_ntust_edu_tw/IQA0kNdwDGKMSYzoRudqlr1iAWOHkP9M1zf71Hbvj_DDl4M?e=cxb3uG)
+[View the A3 Presentation Slides](https://mailntustedutw-my.sharepoint.com/:p:/g/personal/m11502273_ms_ntust_edu_tw/IQA0kNdwDGKMSYzoRudqlr1iAWOHkP9M1zf71Hbvj_DDl4M?e=cxb3uG)
 
 ## 2. Rehearsal video
 [A3 rehearsal video]
