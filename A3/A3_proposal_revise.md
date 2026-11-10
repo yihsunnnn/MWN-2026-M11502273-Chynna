@@ -23,10 +23,9 @@
 - [Difference from the Referenced Studies and Scope Rationale](#difference-from-the-referenced-studies-and-scope-rationale)
 
 ## Reference
-
-1. S. Ilager, K. Ramamohanarao, and R. Buyya, “Thermal Prediction for Efficient Energy Management of Clouds Using Machine Learning,” *IEEE Transactions on Parallel and Distributed Systems*, vol. 32, no. 5, pp. 1044–1056, May 2021. [https://doi.org/10.1109/TPDS.2020.3040800](https://doi.org/10.1109/TPDS.2020.3040800)
-2. J. Lin, W. Lin, W. Lin, J. Wang, and H. Jiang, “Thermal prediction for Air-cooled data center using data Driven-based model,” *Applied Thermal Engineering*, vol. 217, Art. 119207, Nov. 2022. [https://doi.org/10.1016/j.applthermaleng.2022.119207](https://doi.org/10.1016/j.applthermaleng.2022.119207)
-3. K. Zhang, A. Guliani, S. Ogrenci-Memik, G. Memik, K. Yoshii, R. Sankaran, and P. Beckman, “Machine Learning-Based Temperature Prediction for Runtime Thermal Management Across System Components,” *IEEE Transactions on Parallel and Distributed Systems*, vol. 29, no. 2, pp. 405–419, Feb. 2018. [https://doi.org/10.1109/TPDS.2017.2732951](https://doi.org/10.1109/TPDS.2017.2732951)
+1. K. Zhang et al., "Machine Learning-Based Temperature Prediction for Runtime Thermal Management Across System Components," in IEEE Transactions on Parallel and Distributed Systems, vol. 29, no. 2, pp. 405-419, 1 Feb. 2018, doi: 10.1109/TPDS.2017.2732951.​ [https://doi.org/10.1109/TPDS.2020.3040800](https://doi.org/10.1109/TPDS.2020.3040800)
+2. S. Ilager, K. Ramamohanarao and R. Buyya, "Thermal Prediction for Efficient Energy Management of Clouds Using Machine Learning," in IEEE Transactions on Parallel and Distributed Systems, vol. 32, no. 5, pp. 1044-1056, 1 May 2021, doi: 10.1109/TPDS.2020.3040800.​ [https://doi.org/10.1016/j.applthermaleng.2022.119207](https://doi.org/10.1016/j.applthermaleng.2022.119207)
+3. Lin, J., Lin, W., Lin, W., Wang, J., & Jiang, H. (2022). Thermal prediction for air-cooled data center using data driven-based model. Applied Thermal Engineering, 217, 119207.​[https://doi.org/10.1109/TPDS.2017.2732951](https://doi.org/10.1109/TPDS.2017.2732951)
 
 
 ---
