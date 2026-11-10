@@ -23,9 +23,9 @@
 - [Difference from the Referenced Studies and Scope Rationale](#difference-from-the-referenced-studies-and-scope-rationale)
 
 ## Reference
-1. K. Zhang et al., "Machine Learning-Based Temperature Prediction for Runtime Thermal Management Across System Components," in IEEE Transactions on Parallel and Distributed Systems, vol. 29, no. 2, pp. 405-419, 1 Feb. 2018, doi: 10.1109/TPDS.2017.2732951.​ [https://doi.org/10.1109/TPDS.2020.3040800](https://doi.org/10.1109/TPDS.2020.3040800)
-2. S. Ilager, K. Ramamohanarao and R. Buyya, "Thermal Prediction for Efficient Energy Management of Clouds Using Machine Learning," in IEEE Transactions on Parallel and Distributed Systems, vol. 32, no. 5, pp. 1044-1056, 1 May 2021, doi: 10.1109/TPDS.2020.3040800.​ [https://doi.org/10.1016/j.applthermaleng.2022.119207](https://doi.org/10.1016/j.applthermaleng.2022.119207)
-3. Lin, J., Lin, W., Lin, W., Wang, J., & Jiang, H. (2022). Thermal prediction for air-cooled data center using data driven-based model. Applied Thermal Engineering, 217, 119207.​[https://doi.org/10.1109/TPDS.2017.2732951](https://doi.org/10.1109/TPDS.2017.2732951)
+1. [K. Zhang et al., "Machine Learning-Based Temperature Prediction for Runtime Thermal Management Across System Components," in IEEE Transactions on Parallel and Distributed Systems, vol. 29, no. 2, pp. 405-419, 1 Feb. 2018, doi: 10.1109/TPDS.2017.2732951.​](https://ieeexplore.ieee.org/document/7995115)
+2. [S. Ilager, K. Ramamohanarao and R. Buyya, "Thermal Prediction for Efficient Energy Management of Clouds Using Machine Learning," in IEEE Transactions on Parallel and Distributed Systems, vol. 32, no. 5, pp. 1044-1056, 1 May 2021, doi: 10.1109/TPDS.2020.3040800.​](https://ieeexplore.ieee.org/document/9272657)
+3. [Lin J, Lin W, Lin W, Wang J, Jiang H. Thermal prediction for air-cooled data center using data driven-based model. Applied Thermal Engineering. 2022 Nov 25;217:119207.​](https://www.sciencedirect.com/science/article/abs/pii/S1359431122011395)
 
 
 ---
