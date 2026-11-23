@@ -36,10 +36,10 @@ have an LLM review it, and commit the feedback.
 
 ### A1 — Background Study Notes
 
-- [Assignment Information](https://github.com/bmw-ece-ntust/multimedia-wireless-network?tab=readme-ov-file#a1--background-study-notes)
+- [Assignment Information](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/626890d0a41873f9d8136c9647e06328e4ac02e0/A1_Study_note/A1_Assignment_Index.md)
 - Submissions:
-  - [ ] [Study Note](https://github.com/Karlyoo/Multimedia_Wireless2026/tree/main/A1) — five-minute presentation, how to read a paper, and your project proposal
-  - [ ] [Slides](https://docs.google.com/presentation/d/1ad6f84Sg2GO969FbYZmZrRM4GB2siC0ZCy5N41G06nA/edit?usp=sharing)
+  - [ ] [Study Note](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/626890d0a41873f9d8136c9647e06328e4ac02e0/A1_Study_note/HowtoReadPaper_Study_note.md) — five-minute presentation, how to read a paper, and your project proposal
+  - [ ] [Slides](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/626890d0a41873f9d8136c9647e06328e4ac02e0/A1_Study_note/MWC_Proposal_CortexDC_Thermal_Power_v3.pptx)
   - [ ] [Rehearsal Presentation](https://drive.google.com/drive/folders/1K7nD0jXtXTcHjZYyhzy7J6HCSpL75bed) — Speaker Coach recording and the LLM review
   - [ ] [Peer Review](https://forms.gle/eGE2JJgjXpCXwqfq7)
 
@@ -54,7 +54,7 @@ have an LLM review it, and commit the feedback.
   - [ ] [Result from your own run](A2/study_note.md#5-result-from-my-own-run) — 6,000
   packets sent and received, 0% loss, 1.0816 ms mean/max delay, 80 kbps,
   traces, plots, and PCAP captures.
-  - [ ] [Rehearsal Presentation](https://drive.google.com/drive/u/0/folders/1T-f5xERyI-J50wVEzm1GRMWEarNDUEpG)
+  - [ ] [Rehearsal Presentation](https://github.com/yihsunnnn/MWN-2026-M11502273-Chynna/blob/626890d0a41873f9d8136c9647e06328e4ac02e0/A1_Study_note/MWC%20V-20260919_201027-Meeting%20Recording.mov)
   - [ ] [Peer Review](https://forms.gle/eGE2JJgjXpCXwqfq7)
 
 ### A3 — Literature Review
