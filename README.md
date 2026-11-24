@@ -60,10 +60,10 @@ have an LLM review it, and commit the feedback.
 
 - [Assignment Information](https://github.com/bmw-ece-ntust/multimedia-wireless-network?tab=readme-ov-file#a4--baseline-reproduction)
 - Submissions:
-  - [ ] [Study Note](path to your .md file)
-  - [ ] [Flowchart + source code for simulation and analysis](path to your src/)
-  - [ ] [Numerical results](path to specific section in your study note) — plotted against the paper's figure, with parameters, seeds and run count
-  - [ ] [Rehearsal Presentation](path to recording + LLM feedback)
+  - [x] [Study Note](A4/study_note.md)
+  - [x] [Flowchart + source code for simulation and analysis](A4/src/README.md)
+  - [x] [Numerical results](A4/study_note.md#numerical-results) — plotted against the paper's figure, with parameters, seeds and run count
+  - [ ] [Rehearsal Presentation](A4/rehearsal.md) — outline and LLM feedback on the outline, recording pending
   - [ ] [Peer Review](https://forms.gle/eGE2JJgjXpCXwqfq7)
 
 ### Final Project — Your Modification

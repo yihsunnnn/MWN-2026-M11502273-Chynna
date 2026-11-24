@@ -1,0 +1,21 @@
+Dataset,Model,Target,RMSE_Original_Units,Train_Eligible,Train_Used,Test_Count,Split,Forest,Scale,Divisor,RMSE_Reported,Paper_Bar_RMSE_Approx,Absolute_Bar_Difference,Fit_Target_Scale,Neural_Epochs,Neural_Width,Neural_Configuration,LGBM_Configuration
+D1,LR,CPU_Load,6.3156381,1855844,1855844,795362,random,full_training,fixed_units,100,0.063156381,0.060286,0.002870381,train_range,,,,
+D1,PR,CPU_Load,4.6972937,1855844,1855844,795362,random,full_training,fixed_units,100,0.046972937,0.06169,0.014717063,train_range,,,,
+D1,LaR,CPU_Load,7.11304174,1855844,1855844,795362,random,full_training,fixed_units,100,0.0711304174,0.072238,0.0011075826,cpu_percent,,,,
+D1,RR,CPU_Load,6.3156581,1855844,1855844,795362,random,full_training,fixed_units,100,0.063156581,0.060286,0.002870581,train_range,,,,
+D1,CNN,CPU_Load,2.38825049,1855844,1855844,795362,random,full_training,fixed_units,100,0.0238825049,0.015776,0.00810650488,train_range,18,64,"two convolutions, width 64, 18 epochs",
+D1,RNN,CPU_Load,2.24590703,1855844,1855844,795362,random,full_training,fixed_units,100,0.0224590703,0.01593,0.00652907034,train_range,18,64,"width 64, 18 epochs",
+D1,XGB,CPU_Load,2.4279831,1855844,1855844,795362,random,full_training,fixed_units,100,0.024279831,0.026163,0.001883169,train_range,,,,
+D1,LGBM,CPU_Load,6.78394748,1855844,1855844,795362,random,full_training,fixed_units,100,0.0678394748,0.085381,0.0175415252,train_range,,,,9 boosting rounds
+D1,RF,CPU_Load,1.5679427,1855844,1855844,795362,random,full_training,fixed_units,100,0.015679427,0.014558,0.001121427,train_range,,,,
+D1,DT,CPU_Load,2.2604733,1855844,1855844,795362,random,full_training,fixed_units,100,0.022604733,0.021501,0.001103733,train_range,,,,
+D2,LR,CPU_Load,8.4317108,671567,671567,287815,random,full_training,fixed_units,100,0.084317108,0.075062,0.009255108,train_range,,,,
+D2,PR,CPU_Load,6.4741918,671567,671567,287815,random,full_training,fixed_units,100,0.064741918,0.072901,0.008159082,train_range,,,,
+D2,LaR,CPU_Load,8.742173,671567,671567,287815,random,full_training,fixed_units,100,0.08742173,0.075061,0.01236073,cpu_percent,,,,
+D2,RR,CPU_Load,8.4317396,671567,671567,287815,random,full_training,fixed_units,100,0.084317396,0.075062,0.009255396,train_range,,,,
+D2,CNN,CPU_Load,4.98584878,671567,671567,287815,random,full_training,fixed_units,100,0.0498584878,0.01482,0.0350384878,train_range,18,64,"two convolutions, width 64, 18 epochs",
+D2,RNN,CPU_Load,5.27024604,671567,671567,287815,random,full_training,fixed_units,100,0.0527024604,0.014792,0.0379104604,train_range,18,64,"width 64, 18 epochs",
+D2,XGB,CPU_Load,4.4933348,671567,671567,287815,random,full_training,fixed_units,100,0.044933348,0.032515,0.012418348,train_range,,,,
+D2,LGBM,CPU_Load,8.87251787,671567,671567,287815,random,full_training,fixed_units,100,0.0887251787,0.08779,0.000935178744,train_range,,,,9 boosting rounds
+D2,RF,CPU_Load,3.9210132,671567,671567,287815,random,full_training,fixed_units,100,0.039210132,0.025423,0.013787132,train_range,,,,
+D2,DT,CPU_Load,5.4908007,671567,671567,287815,random,full_training,fixed_units,100,0.054908007,0.036626,0.018282007,train_range,,,,
