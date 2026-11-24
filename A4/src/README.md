@@ -31,3 +31,7 @@ python src/reproduce_cpu.py
 The first command redraws the archived Figure 14a without training. The second uses the full data and fits all ten CPU regressors separately for D1 and D2. Both write into `A4/rerun/`. CPU training can take several minutes and floating-point results may vary with hardware and thread scheduling.
 
 The archived Figure 14b can be redrawn with `python src/replot_power.py`. To train the original three-epoch configurations again, run `python src/fig14.py --split random --rf-train-limit 0`. This trains both CPU and power models and reports training-range RMSE. Divide the power results in watts by 1,000 for the archived kW scale. [Training code](fig14.py) · [Statistical figures script](fig5_to_fig13.py) · [Published notebook](https://github.com/shashikantilager/data-center-characterization/blob/main/analysis.ipynb)
+
+## Compare Figure 13
+
+Run `python src/fig5_to_fig13.py 13` to calculate the Pearson matrices from the raw data. To regenerate the archived color-estimate differences, install `pypdfium2` and run `python src/compare_figure13.py <author-corr-directory>` with the author's `corr_d1_bar.pdf` and `corr_d2_bar.pdf` in that directory. [Authors' correlation PDFs](https://github.com/shashikantilager/data-center-characterization/tree/main/plots/d1_d2/corr)
