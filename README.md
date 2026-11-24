@@ -63,8 +63,7 @@ have an LLM review it, and commit the feedback.
   - [x] [Study Note](A4/study_note.md)
   - [x] [Flowchart + source code for simulation and analysis](A4/src/README.md)
   - [x] [Numerical results](A4/study_note.md#numerical-results) — plotted against the paper's figure, with parameters, seeds and run count
-  - [ ] [Rehearsal Presentation](A4/rehearsal.md) — outline and LLM feedback on the outline, recording pending
-  - [ ] [Peer Review](https://forms.gle/eGE2JJgjXpCXwqfq7)
+  - [x] [Rehearsal Presentation](https://youtu.be/vQX9ykRgf1k) 
 
 ### Final Project — Your Modification
 
